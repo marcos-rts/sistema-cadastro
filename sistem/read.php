@@ -161,11 +161,22 @@ if (null == $id) {
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label for="problema">Quem recebeu</label>
+            <div class="controls form-control disabled">
+            <label class="carousel-inner">
+                <?php echo $data['recebe']; ?>
+            </label>
+            </div>
+        </div>
+    </div>
                 
                     <br/>
                     <div class="form-actions">
                         <a href="index.php" type="btn" class="btn btn-default">Voltar</a>
                     </div>
+                    <a href="imprimir.php" type="btn" class="btn btn-default">Imprimir</a>
                 </div>
             </div>
         </div>

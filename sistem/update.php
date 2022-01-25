@@ -185,8 +185,106 @@ if (!empty($_POST)) {
         <div class="control-goup <?php !empty($setorErro) ? '$setorErro ' : ''; ?>">
         <label class="control-label">Setor</label>
         <div class="controls">
-        <input size="40" class="form-control" name="setor" type="text" 
-                                   value="<?php echo !empty($setor) ? $setor : ''; ?>">
+                    <select class="form-control" name="setor" placeholder="setor" value="<?php echo !empty($setor) ? $setor : ''; ?>">
+                    <option value="000"></option>
+                    <?php 
+                        if ($setor == "DSMM") {
+                            ?>
+                        <option selected value="DSMM">DSMM - Dep de Sementes, Mudas e Matrizes</option>
+                        <option value="EDR">EDR - Escritorio dev. Rural</option>
+                        <option value="CA">CA - Casa de Agricultura</option>
+                        <option value="NPM">NPM - Nucle de Prod. de Mudas</option>
+                        <option value="APTA">APTA - Agência Paulista de Tec. dos Agronegocios</option>
+                        <option value="CDA">CDA - Corrdenadoria de Def. Agropecuaria</option>
+                        <option value="CATI">CATI - Coordenadoria de Desenvolvimento Rural Sustentável</option>
+
+                            <?php
+                        }
+                    ?>
+                    <?php 
+                        if ($setor == "EDR") {
+                            ?>
+                        <option value="DSMM">DSMM - Dep de Sementes, Mudas e Matrizes</option>
+                        <option selected value="EDR">EDR - Escritorio dev. Rural</option>
+                        <option value="CA">CA - Casa de Agricultura</option>
+                        <option value="NPM">NPM - Nucle de Prod. de Mudas</option>
+                        <option value="APTA">APTA - Agência Paulista de Tec. dos Agronegocios</option>
+                        <option value="CDA">CDA - Corrdenadoria de Def. Agropecuaria</option>
+                        <option value="CATI">CATI - Coordenadoria de Desenvolvimento Rural Sustentável</option>
+
+                            <?php
+                        }
+                    ?>
+                                        <?php 
+                        if ($setor == "CA") {
+                            ?>
+                        <option value="DSMM">DSMM - Dep de Sementes, Mudas e Matrizes</option>
+                        <option value="EDR">EDR - Escritorio dev. Rural</option>
+                        <option selected value="CA">CA - Casa de Agricultura</option>
+                        <option value="NPM">NPM - Nucle de Prod. de Mudas</option>
+                        <option value="APTA">APTA - Agência Paulista de Tec. dos Agronegocios</option>
+                        <option value="CDA">CDA - Corrdenadoria de Def. Agropecuaria</option>
+                        <option value="CATI">CATI - Coordenadoria de Desenvolvimento Rural Sustentável</option>
+
+                            <?php
+                        }
+                    ?>
+                    <?php 
+                        if ($setor == "NPM") {
+                            ?>
+                        <option value="DSMM">DSMM - Dep de Sementes, Mudas e Matrizes</option>
+                        <option value="EDR">EDR - Escritorio dev. Rural</option>
+                        <option value="CA">CA - Casa de Agricultura</option>
+                        <option selected value="NPM">NPM - Nucle de Prod. de Mudas</option>
+                        <option value="APTA">APTA - Agência Paulista de Tec. dos Agronegocios</option>
+                        <option value="CDA">CDA - Corrdenadoria de Def. Agropecuaria</option>
+                        <option value="CATI">CATI - Coordenadoria de Desenvolvimento Rural Sustentável</option>
+
+                            <?php
+                        }
+                    ?>
+                    <?php 
+                        if ($setor == "APTA") {
+                            ?>
+                        <option value="DSMM">DSMM - Dep de Sementes, Mudas e Matrizes</option>
+                        <option value="EDR">EDR - Escritorio dev. Rural</option>
+                        <option value="CA">CA - Casa de Agricultura</option>
+                        <option value="NPM">NPM - Nucle de Prod. de Mudas</option>
+                        <option selected value="APTA">APTA - Agência Paulista de Tec. dos Agronegocios</option>
+                        <option value="CDA">CDA - Corrdenadoria de Def. Agropecuaria</option>
+                        <option value="CATI">CATI - Coordenadoria de Desenvolvimento Rural Sustentável</option>
+
+                            <?php
+                        }
+                    ?>
+                                        <?php 
+                        if ($setor == "CDA") {
+                            ?>
+                        <option value="DSMM">DSMM - Dep de Sementes, Mudas e Matrizes</option>
+                        <option value="EDR">EDR - Escritorio dev. Rural</option>
+                        <option value="CA">CA - Casa de Agricultura</option>
+                        <option value="NPM">NPM - Nucle de Prod. de Mudas</option>
+                        <option value="APTA">APTA - Agência Paulista de Tec. dos Agronegocios</option>
+                        <option selected value="CDA">CDA - Corrdenadoria de Def. Agropecuaria</option>
+                        <option value="CATI">CATI - Coordenadoria de Desenvolvimento Rural Sustentável</option>
+
+                            <?php
+                        }
+                    ?>
+                                                            <?php 
+                        if ($setor == "CATI") {
+                            ?>
+                        <option value="DSMM">DSMM - Dep de Sementes, Mudas e Matrizes</option>
+                        <option value="EDR">EDR - Escritorio dev. Rural</option>
+                        <option value="CA">CA - Casa de Agricultura</option>
+                        <option value="NPM">NPM - Nucle de Prod. de Mudas</option>
+                        <option value="APTA">APTA - Agência Paulista de Tec. dos Agronegocios</option>
+                        <option value="CDA">CDA - Corrdenadoria de Def. Agropecuaria</option>
+                        <option selected value="CATI">CATI - Coordenadoria de Desenvolvimento Rural Sustentável</option>
+                            <?php
+                        }
+                    ?>
+                    </select>
                     <?php if (!empty($setorErro)): ?>
                         <span class="text-danger"><?php echo $setorErro; ?></span>
                         <?php endif; ?>
@@ -247,12 +345,110 @@ if (!empty($_POST)) {
         <div class="controls">
                     <select class="form-control" name="status" placeholder="status" value="<?php echo !empty($status) ? $status : ''; ?>">
                     <option value="000"></option>
-                        <option value="Não mexido"> Não mexido </option>
+                    <?php 
+                        if ($status == "Não mexido") {
+                            ?>
+                            <option selected value="Não mexido"> Não mexido </option>
+                            <option value="Sendo Mexido"> Sendo Mexido </option>
+                            <option value="Pronta"> Pronta </option>
+                            <option value="Entregue"> Entregue </option>
+                            <option value="Baixa"> Baixa </option>
+                            <option value="Transferencia"> Transferencia </option>
+                            <option value="Emprestado"> Emprestado </option>
+
+                            <?php
+                        }
+                    ?>
+                    <?php 
+                        if ($status == "Sendo Mexido") {
+                            ?>
+                            <option value="Não mexido"> Não mexido </option>
+                            <option selected value="Sendo Mexido"> Sendo Mexido </option>
+                            <option value="Pronta"> Pronta </option>
+                            <option value="Entregue"> Entregue </option>
+                            <option value="Baixa"> Baixa </option>
+                            <option value="Transferencia"> Transferencia </option>
+                            <option value="Emprestado"> Emprestado </option>
+
+                            <?php
+                        }
+                    ?>
+                                        <?php 
+                        if ($status == "Pronta") {
+                            ?>
+                            <option value="Não mexido"> Não mexido </option>
+                            <option value="Sendo Mexido"> Sendo Mexido </option>
+                            <option selected value="Pronta"> Pronta </option>
+                            <option value="Entregue"> Entregue </option>
+                            <option value="Baixa"> Baixa </option>
+                            <option value="Transferencia"> Transferencia </option>
+                            <option value="Emprestado"> Emprestado </option>
+
+                            <?php
+                        }
+                    ?>
+                    <?php 
+                        if ($status == "Entregue") {
+                            ?>
+                            <option value="Não mexido"> Não mexido </option>
+                            <option value="Sendo Mexido"> Sendo Mexido </option>
+                            <option value="Pronta"> Pronta </option>
+                            <option selected value="Entregue"> Entregue </option>
+                            <option value="Baixa"> Baixa </option>
+                            <option value="Transferencia"> Transferencia </option>
+                            <option value="Emprestado"> Emprestado </option>
+
+                            <?php
+                        }
+                    ?>
+                    <?php 
+                        if ($status == "Baixa") {
+                            ?>
+                            <option value="Não mexido"> Não mexido </option>
+                            <option value="Sendo Mexido"> Sendo Mexido </option>
+                            <option value="Pronta"> Pronta </option>
+                            <option value="Entregue"> Entregue </option>
+                            <option selected value="Baixa"> Baixa </option>
+                            <option value="Transferencia"> Transferencia </option>
+                            <option value="Emprestado"> Emprestado </option>
+
+                            <?php
+                        }
+                    ?>
+                    <?php 
+                        if ($status == "Transferencia") {
+                            ?>
+                            <option value="Não mexido"> Não mexido </option>
+                            <option value="Sendo Mexido"> Sendo Mexido </option>
+                            <option value="Pronta"> Pronta </option>
+                            <option value="Entregue"> Entregue </option>
+                            <option value="Baixa"> Baixa </option>
+                            <option selected value="Transferencia"> Transferencia </option>
+                            <option value="Emprestado"> Emprestado </option>
+
+                            <?php
+                        }
+                    ?>
+                                        <?php 
+                        if ($status == "Emprestado") {
+                            ?>
+                            <option value="Não mexido"> Não mexido </option>
+                            <option value="Sendo Mexido"> Sendo Mexido </option>
+                            <option value="Pronta"> Pronta </option>
+                            <option value="Entregue"> Entregue </option>
+                            <option value="Baixa"> Baixa </option>
+                            <option  value="Transferencia"> Transferencia </option>
+                            <option selected value="Emprestado"> Emprestado </option>
+
+                            <?php
+                        }
+                    ?>
+                        <!-- <option value="Não mexido"> Não mexido </option>
                         <option value="Sendo Mexido"> Sendo Mexido </option>
                         <option value="Pronta"> Pronta </option>
                         <option value="Entregue"> Entregue </option>
                         <option value="Baixa"> Baixa </option>
-                        <option value="Transferencia"> Transferencia </option>
+                        <option value="Transferencia"> Transferencia </option> -->
                     </select>
                     <?php if (!empty($statusErro)): ?>
                         <span class="text-danger"><?php echo $statusErro; ?></span>
@@ -265,8 +461,64 @@ if (!empty($_POST)) {
         <div class="control-goup <?php !empty($equipErro) ? '$equipErro ' : ''; ?>">
         <label class="control-label">Equipamento</label>
         <div class="controls">
-        <input size="40" class="form-control" name="equip" type="text" 
-                                   value="<?php echo !empty($equip) ? $equip : ''; ?>">
+                    <select class="form-control" name="equip" placeholder="equip" value="<?php echo !empty($equip) ? $equip : ''; ?>">
+                    <option value="000"></option>
+                    <?php 
+                        if ($equip == "Impressora") {
+                            ?>
+                        <option selected value="Impressora">Impressora</option>
+                        <option value="Desktop">Desktop</option>
+                        <option value="Notebook">Notebook</option>
+                        <option value="Roteador">Roteador</option>
+                        <option value="Monitor">Monitor</option>
+                            <?php
+                        }
+                    ?>
+                    <?php 
+                        if ($equip == "Desktop") {
+                            ?>
+                        <option value="Impressora">Impressora</option>
+                        <option selected value="Desktop">Desktop</option>
+                        <option value="Notebook">Notebook</option>
+                        <option value="Roteador">Roteador</option>
+                        <option value="Monitor">Monitor</option>
+                            <?php
+                        }
+                    ?>
+                                        <?php 
+                        if ($equip == "Notebook") {
+                            ?>
+                        <option value="Impressora">Impressora</option>
+                        <option value="Desktop">Desktop</option>
+                        <option selected value="Notebook">Notebook</option>
+                        <option value="Roteador">Roteador</option>
+                        <option value="Monitor">Monitor</option>
+                            <?php
+                        }
+                    ?>
+                    <?php 
+                        if ($equip == "Roteador") {
+                            ?>
+                        <option value="Impressora">Impressora</option>
+                        <option value="Desktop">Desktop</option>
+                        <option value="Notebook">Notebook</option>
+                        <option selected value="Roteador">Roteador</option>
+                        <option value="Monitor">Monitor</option>
+                            <?php
+                        }
+                    ?>
+                    <?php 
+                        if ($equip == "Monitor") {
+                            ?>
+                        <option value="Impressora">Impressora</option>
+                        <option value="Desktop">Desktop</option>
+                        <option value="Notebook">Notebook</option>
+                        <option value="Roteador">Roteador</option>
+                        <option selected value="Monitor">Monitor</option>
+                            <?php
+                        }
+                    ?>
+                    </select>
                     <?php if (!empty($equipErro)): ?>
                         <span class="text-danger"><?php echo $equipErro; ?></span>
                         <?php endif; ?>

@@ -1,5 +1,19 @@
 
+<?php
 
+// A sessão precisa ser iniciada em cada página diferente
+if (!isset($_SESSION)) session_start();
+
+// Verifica se não há a variável da sessão que identifica o usuário
+if (!isset($_SESSION['UsuarioID'])) {
+    // Destrói a sessão por segurança
+    session_destroy();
+    // Redireciona o visitante de volta pro login
+    header("Location: login.php"); exit;
+    
+}
+
+?>
 <?php
 require 'banco.php';
 //Acompanha os erros de validação
@@ -33,6 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $equip = $_POST['equip'];
     $chapa = $_POST['chapa'];
     $chamado = $_POST['chamado'];
+    $recebe = $_SESSION['UsuarioNome'];
     $validacao = true;
 
     if (!empty($_POST)) {
@@ -70,9 +85,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($validacao) {
         $pdo = Banco::conectar();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO maquina (nome, telefone, email, local, setor, entrada, saida, tecnico, status, equip, chapa, chamado, problema) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $sql = "INSERT INTO maquina (nome, telefone, email, local, setor, entrada, saida, tecnico, status, equip, chapa, chamado, problema, recebe) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $q = $pdo->prepare($sql);
-        $q->execute(array($nome, $telefone, $email, $local, $setor, $entrada, $saida, $tecnico, $status, $equip, $chapa, $chamado, $problema));
+        $q->execute(array($nome, $telefone, $email, $local, $setor, $entrada, $saida, $tecnico, $status, $equip, $chapa, $chamado, $problema, $recebe));
         Banco::desconectar();
         header("Location: index.php");
     }
@@ -256,7 +271,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <option value="106">Cajobi</option>
                         <option value="107">Cajuru</option>
                         <option value="108">Campina do Monte Alegre</option>
-                        <option value="109">Campinas</option>
+                        <option value="Campinas">Campinas</option>
                         <option value="110">Campo Limpo Paulista</option>
                         <option value="111">Campos do Jordão</option>
                         <option value="112">Campos Novos Paulista</option>
@@ -583,7 +598,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <option value="425">Piquerobi</option>
                         <option value="426">Piquete</option>
                         <option value="427">Piracaia</option>
-                        <option value="428">Piracicaba</option>
+                        <option value="Piracicaba">Piracicaba</option>
                         <option value="430">Piraju</option>
                         <option value="431">Pirajuí</option>
                         <option value="432">Pirangi</option>
@@ -679,7 +694,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <option value="520">Santa Mercedes</option>
                         <option value="522">Santa Rita d'Oeste</option>
                         <option value="521">Santa Rita do Passa Quatro</option>
-                        <option value="523">Santa Rosa de Viterbo</option>
+                        <option value="Santa Rosa de Viterbo">Santa Rosa de Viterbo</option>
                         <option value="524">Santa Salete</option>
                         <option value="525">Santana da Ponte Pensa</option>
                         <option value="526">Santana de Parnaíba</option>
@@ -731,7 +746,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <option value="572">Severínia</option>
                         <option value="573">Silveiras</option>
                         <option value="574">Socorro</option>
-                        <option value="575">Sorocaba</option>
+                        <option value="Sorocaba">Sorocaba</option>
                         <option value="576">Sud Mennucci</option>
                         <option value="577">Sumaré</option>
                         <option value="579">Suzanápolis</option>
@@ -807,12 +822,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="controls">
                     <select class="form-control" name="setor"  placeholder="setor" value="<?php echo !empty($setor) ? $setor : ''; ?>">
                         <option value="000"></option>
-                        <option value="DSMM - Dep de Sementes, Mudas e Matrizes">DSMM - Dep de Sementes, Mudas e Matrizes</option>
-                        <option value="EDR - Escritorio dev. Rural">EDR - Escritorio dev. Rural</option>
-                        <option value="CA - Casa de Agricultura">CA - Casa de Agricultura</option>
-                        <option value="NPM - Nucle de Prod. de Mudas">NPM - Nucle de Prod. de Mudas</option>
-                        <option value="APTA - Agência Paulista de Tec. dos Agronegocios">APTA - Agência Paulista de Tec. dos Agronegocios</option>
-                        <option value="CDA - Corrdenadoria de Def. Agropecuaria">CDA - Corrdenadoria de Def. Agropecuaria</option>
+                        <option value="DSMM">DSMM - Dep de Sementes, Mudas e Matrizes</option>
+                        <option value="EDR">EDR - Escritorio dev. Rural</option>
+                        <option value="CA">CA - Casa de Agricultura</option>
+                        <option value="NPM">NPM - Nucle de Prod. de Mudas</option>
+                        <option value="APTA">APTA - Agência Paulista de Tec. dos Agronegocios</option>
+                        <option value="CDA">CDA - Corrdenadoria de Def. Agropecuaria</option>
+                        <option value="CATI">CATI - Coordenadoria de Desenvolvimento Rural Sustentável</option>
+
                     </select>
                     <?php if (!empty($localErro)): ?>
                         <span class="text-danger"><?php echo $localErro; ?></span>
@@ -880,6 +897,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <option value="Entregue"> Entregue </option>
                         <option value="Baixa"> Baixa </option>
                         <option value="Transferencia"> Transferencia </option>
+                        <option value="Emprestado"> Emprestado </option>
                     </select>
                     <?php if (!empty($statusErro)): ?>
                         <span class="text-danger"><?php echo $statusErro; ?></span>
@@ -896,8 +914,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <option value="000"></option>
                         <option value="Impressora">Impressora</option>
                         <option value="Desktop">Desktop</option>
-                        <option value="NootBook">NootBook</option>
+                        <option value="Notebook">Notebook</option>
                         <option value="Roteador">Roteador</option>
+                        <option value="Monitor">Monitor</option>
                     </select>
                     <?php if (!empty($equipErro)): ?>
                         <span class="text-danger"><?php echo $equipErro; ?></span>
