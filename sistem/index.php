@@ -8,7 +8,7 @@
       // Destrói a sessão por segurança
       session_destroy();
       // Redireciona o visitante de volta pro login
-      header("Location: login.php"); exit;
+      header("Location: ../index.html"); exit;
   }
 
   ?>
@@ -68,12 +68,14 @@
                             echo '<td>'. $row['status'] . '</td>';
                             echo '<td>'. $row['chapa'] . '</td>';
                             echo '<td>'. $row['chamado'] . '</td>';
-                            echo '<td width=250>';
+                            echo '<td width=350>';
                             echo '<a class="btn btn-primary" href="read.php?id='.$row['id'].'">Info</a>';
                             echo ' ';
                             echo '<a class="btn btn-warning" href="update.php?id='.$row['id'].'">Atualizar</a>';
                             echo ' ';
                             echo '<a class="btn btn-danger" href="delete.php?id='.$row['id'].'">Excluir</a>';
+                            echo ' ';
+                            echo '<a class="btn btn-dark" href="imprimir.php?id='.$row['id'].'">Imprimir</a>';
                             echo '</td>';
                             echo '</tr>';
                         }
