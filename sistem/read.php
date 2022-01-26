@@ -163,6 +163,16 @@ if (null == $id) {
     </div>
     <div class="row">
         <div class="form-group col-md-12">
+            <label for="problema">Solução</label>
+            <div class="controls form-control disabled">
+            <label class="carousel-inner">
+                <?php echo $data['solucao']; ?>
+            </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-12">
             <label for="problema">Quem recebeu</label>
             <div class="controls form-control disabled">
             <label class="carousel-inner">
