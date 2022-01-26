@@ -124,6 +124,41 @@ if (!empty($_POST)) {
 </head>
 
 <body>
+<header>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg ftco_navbar ftco-navbar-dark" id="ftco-navbar">
+                <div class="container">
+                    <a class="navbar-brand" href="../index.php">Sistema de Controle de Maquinas</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+                        aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="fa fa-bars"></span>
+                        Menu
+                    </button>
+                    <div class="collapse navbar-collapse" id="ftco-nav">
+                        <ul class="navbar-nav ml-auto mr-md-3">
+                            <li class="nav-item active">
+                                <a href="index.php" class="nav-link">Pendentes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="entregues.php" class="nav-link">Entregues</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../users/index.php" class="nav-link">Usuario</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../logout.php" class="nav-link">Logout</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">Configurações gerais</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </nav>
+            <!-- END nav -->
+        </div>
+    </header>
     <div class="container">
 
         <div class="span10 offset1">

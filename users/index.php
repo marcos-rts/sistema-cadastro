@@ -29,7 +29,7 @@ if (!isset($_SESSION['UsuarioID'])) {
     <div class="container">
                 <nav class="navbar navbar-expand-lg ftco_navbar ftco-navbar-dark" id="ftco-navbar">
                     <div class="container">
-                        <a class="navbar-brand" href="index.html">Digital</a>
+                        <a class="navbar-brand" href="../index.php">Sistema de Controle de Maquinas</a>
                         <button
                             class="navbar-toggler"
                             type="button"
@@ -48,10 +48,10 @@ if (!isset($_SESSION['UsuarioID'])) {
                                     <a href="../sistem/index.php" class="nav-link">Pendentes</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">Entregues</a>
+                                    <a href="../sistem/entregues.php" class="nav-link">Entregues</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">Usuario</a>
+                                    <a href="index.php" class="nav-link">Usuario</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="../logout.php" class="nav-link">Logout</a>

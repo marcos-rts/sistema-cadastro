@@ -8,8 +8,8 @@ if (!isset($_SESSION['UsuarioID'])) {
     // Destrói a sessão por segurança
     session_destroy();
     // Redireciona o visitante de volta pro login
-    header("Location: login.php"); exit;
-    
+    header("Location: login.php");
+    exit;
 }
 
 ?>
@@ -78,12 +78,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $emailErro = 'Por favor digite um endereço de email!';
             $validacao = False;
         }
-
-
-
     }
 
-//Inserindo no Banco:
+    //Inserindo no Banco:
     if ($validacao) {
         $pdo = Banco::conectar();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -109,6 +106,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
+    <header>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg ftco_navbar ftco-navbar-dark" id="ftco-navbar">
+                <div class="container">
+                    <a class="navbar-brand" href="../index.php">Sistema de Controle de Maquinas</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+                        aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="fa fa-bars"></span>
+                        Menu
+                    </button>
+                    <div class="collapse navbar-collapse" id="ftco-nav">
+                        <ul class="navbar-nav ml-auto mr-md-3">
+                            <li class="nav-item active">
+                                <a href="index.php" class="nav-link">Pendentes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="entregues.php" class="nav-link">Entregues</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../users/index.php" class="nav-link">Usuario</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../logout.php" class="nav-link">Logout</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">Configurações gerais</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </nav>
+            <!-- END nav -->
+        </div>
+    </header>
     <div class="container">
         <div clas="span10 offset1">
             <div class="card">
@@ -125,7 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="controls">
                                         <input size="50" class="form-control" name="nome" type="text"
                                             value="<?php echo !empty($nome) ? $nome : ''; ?>">
-                                        <?php if (!empty($nomeErro)): ?>
+                                        <?php if (!empty($nomeErro)) : ?>
                                         <span class="text-danger"><?php echo $nomeErro; ?></span>
                                         <?php endif; ?>
                                     </div>
@@ -138,7 +170,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="controls">
                                         <input size="35" class="form-control" name="telefone" type="text"
                                             value="<?php echo !empty($telefone) ? $telefone : ''; ?>">
-                                        <?php if (!empty($telefoneErro)): ?>
+                                        <?php if (!empty($telefoneErro)) : ?>
                                         <span class="text-danger"><?php echo $telefoneErro; ?></span>
                                         <?php endif; ?>
                                     </div>
@@ -150,7 +182,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="controls">
                                         <input size="40" class="form-control" name="email" type="text"
                                             value="<?php echo !empty($email) ? $email : ''; ?>">
-                                        <?php if (!empty($emailErro)): ?>
+                                        <?php if (!empty($emailErro)) : ?>
                                         <span class="text-danger"><?php echo $emailErro; ?></span>
                                         <?php endif; ?>
                                     </div>
@@ -812,7 +844,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <option value="634">Votuporanga</option>
                                             <option value="636">Zacarias</option>
                                         </select>
-                                        <?php if (!empty($localErro)): ?>
+                                        <?php if (!empty($localErro)) : ?>
                                         <span class="text-danger"><?php echo $localErro; ?></span>
                                         <?php endif; ?>
                                     </div>
@@ -837,7 +869,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 Sustentável</option>
 
                                         </select>
-                                        <?php if (!empty($localErro)): ?>
+                                        <?php if (!empty($localErro)) : ?>
                                         <span class="text-danger"><?php echo $localErro; ?></span>
                                         <?php endif; ?>
                                     </div>
@@ -855,7 +887,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="controls">
                                         <input size="50" class="form-control" name="entrada" type="date"
                                             value="<?php echo !empty($entrada) ? $entrada : ''; ?>">
-                                        <?php if (!empty($entradaErro)): ?>
+                                        <?php if (!empty($entradaErro)) : ?>
                                         <span class="text-danger"><?php echo $entradaErro; ?></span>
                                         <?php endif; ?>
                                     </div>
@@ -868,7 +900,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="controls">
                                         <input size="50" class="form-control" name="saida" type="date"
                                             value="<?php echo !empty($saida) ? $saida : ''; ?>">
-                                        <?php if (!empty($saidaErro)): ?>
+                                        <?php if (!empty($saidaErro)) : ?>
                                         <span class="text-danger"><?php echo $saidaErro; ?></span>
                                         <?php endif; ?>
                                     </div>
@@ -884,7 +916,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="controls">
                                         <input size="50" class="form-control" name="tecnico" type="text"
                                             value="<?php echo !empty($tecnico) ? $tecnico : ''; ?>">
-                                        <?php if (!empty($tecnicoErro)): ?>
+                                        <?php if (!empty($tecnicoErro)) : ?>
                                         <span class="text-danger"><?php echo $tecnicoErro; ?></span>
                                         <?php endif; ?>
                                     </div>
@@ -906,7 +938,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <option value="Transferencia"> Transferencia </option>
                                             <option value="Emprestado"> Emprestado </option>
                                         </select>
-                                        <?php if (!empty($statusErro)): ?>
+                                        <?php if (!empty($statusErro)) : ?>
                                         <span class="text-danger"><?php echo $statusErro; ?></span>
                                         <?php endif; ?>
                                     </div>
@@ -926,7 +958,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <option value="Roteador">Roteador</option>
                                             <option value="Monitor">Monitor</option>
                                         </select>
-                                        <?php if (!empty($equipErro)): ?>
+                                        <?php if (!empty($equipErro)) : ?>
                                         <span class="text-danger"><?php echo $equipErro; ?></span>
                                         <?php endif; ?>
                                     </div>
@@ -939,7 +971,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="controls">
                                         <input size="50" class="form-control" name="chapa" type="text"
                                             value="<?php echo !empty($chapa) ? $chapa : ''; ?>">
-                                        <?php if (!empty($chapaErro)): ?>
+                                        <?php if (!empty($chapaErro)) : ?>
                                         <span class="text-danger"><?php echo $chapaErro; ?></span>
                                         <?php endif; ?>
                                     </div>
@@ -952,7 +984,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="controls">
                                         <input size="50" class="form-control" name="chamado" type="text"
                                             value="<?php echo !empty($chamado) ? $chamado : ''; ?>">
-                                        <?php if (!empty($chamadoErro)): ?>
+                                        <?php if (!empty($chamadoErro)) : ?>
                                         <span class="text-danger"><?php echo $chamadoErro; ?></span>
                                         <?php endif; ?>
                                     </div>
@@ -968,7 +1000,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="controls">
                                         <input size="50" class="form-control" name="problema" type="text"
                                             value="<?php echo !empty($problema) ? $problema : ''; ?>">
-                                        <?php if (!empty($problemaErro)): ?>
+                                        <?php if (!empty($problemaErro)) : ?>
                                         <span class="text-danger"><?php echo $problemaErro; ?></span>
                                         <?php endif; ?>
                                     </div>
@@ -983,7 +1015,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="controls">
                                         <input size="50" class="form-control" name="solucao" type="text"
                                             value="<?php echo !empty($solucao) ? $solucao : ''; ?>">
-                                        <?php if (!empty($solucaoErro)): ?>
+                                        <?php if (!empty($solucaoErro)) : ?>
                                         <span class="text-danger"><?php echo $solucaoErro; ?></span>
                                         <?php endif; ?>
                                     </div>

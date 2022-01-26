@@ -29,7 +29,7 @@ if (!isset($_SESSION['UsuarioID'])) {
         <div class="container">
             <nav class="navbar navbar-expand-lg ftco_navbar ftco-navbar-dark" id="ftco-navbar">
                 <div class="container">
-                    <a class="navbar-brand" href="index.html">Digital</a>
+                    <a class="navbar-brand" href="index.html">Sistema de Controle de Maquinas</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
                         aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="fa fa-bars"></span>
