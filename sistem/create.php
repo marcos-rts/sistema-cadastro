@@ -545,7 +545,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <option value="341">Mococa</option>
                                             <option value="344">Mogi das Cruzes</option>
                                             <option value="342">Mogi Guaçu</option>
-                                            <option value="343">Mogi Mirim</option>
+                                            <option value="Mogi Mirim">Mogi Mirim</option>
                                             <option value="345">Mombuca</option>
                                             <option value="346">Monções</option>
                                             <option value="347">Mongaguá</option>
