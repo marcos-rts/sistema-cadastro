@@ -126,6 +126,7 @@ if (!isset($_SESSION['UsuarioID'])) {
             </table>
         </div>
         <hr>
+        <a class="btn " href="niveis.php">Niveis de Usuarios</a>
 
     </div>
 
