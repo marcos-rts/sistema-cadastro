@@ -91,7 +91,6 @@ if (!isset($_SESSION['UsuarioID'])) {
                             <!-- <th scope="col">Nome</th> -->
                             <th scope="col">Nome</th>
                             <th scope="col">Usuario</th>
-                            <th scope="col">Nivel</th>
                             <th scope="col">Ativo</th>
                             <th scope="col">Ação</th>
                         </tr>
@@ -108,7 +107,6 @@ if (!isset($_SESSION['UsuarioID'])) {
                                 echo '<th scope="row">' . $row['id'] . '</th>';
                                 echo '<td>' . $row['nome'] . '</td>';
                                 echo '<td>' . $row['usuario'] . '</td>';
-                                echo '<td>' . $row['nivel'] . '</td>';
                                 if ($row['ativo'] == '1') {
                                     echo '<td>Sim</td>';
                                 } else {
@@ -136,7 +134,7 @@ if (!isset($_SESSION['UsuarioID'])) {
 
         <!-- Nivel 3-->
         <?php
-        if ($_SESSION['UsuarioNivel'] == '3') {
+        if ($_SESSION['UsuarioNivel'] == '3' || $_SESSION['UsuarioNivel'] == '4') {
         ?>
             <div class="row">
                 <br>
@@ -147,7 +145,6 @@ if (!isset($_SESSION['UsuarioID'])) {
                             <!-- <th scope="col">Nome</th> -->
                             <th scope="col">Nome</th>
                             <th scope="col">Usuario</th>
-                            <th scope="col">Nivel</th>
                             <th scope="col">Ativo</th>
                             <th scope="col">Ação</th>
                         </tr>
@@ -164,7 +161,6 @@ if (!isset($_SESSION['UsuarioID'])) {
                                 echo '<th scope="row">' . $row['id'] . '</th>';
                                 echo '<td>' . $row['nome'] . '</td>';
                                 echo '<td>' . $row['usuario'] . '</td>';
-                                echo '<td>' . $row['nivel'] . '</td>';
                                 if ($row['ativo'] == '1') {
                                     echo '<td>Sim</td>';
                                 } else {
@@ -186,7 +182,6 @@ if (!isset($_SESSION['UsuarioID'])) {
                                 echo '<th scope="row">' . $row['id'] . '</th>';
                                 echo '<td>' . $row['nome'] . '</td>';
                                 echo '<td>' . $row['usuario'] . '</td>';
-                                echo '<td>' . $row['nivel'] . '</td>';
                                 if ($row['ativo'] == '1') {
                                     echo '<td>Sim</td>';
                                 } else {

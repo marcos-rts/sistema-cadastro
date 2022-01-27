@@ -69,7 +69,7 @@ if (!isset($_SESSION['UsuarioID'])) {
         </div>
     </header>
     <div class="container">
-        <p>Conectado como <?php echo $_SESSION['UsuarioNome'], ' nivel: ', $_SESSION['UsuarioNivel']; ?> </p>
+        <p>Conectado como <?php echo $_SESSION['UsuarioNome'] ?> </p>
 
         <!-- <div class="jumbotron">
             <p>Conectado como <?php echo $_SESSION['UsuarioNome'], 'nivel: ', $_SESSION['Us']; ?> </p>
