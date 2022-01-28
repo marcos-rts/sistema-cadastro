@@ -221,7 +221,6 @@ if (null == $id) {
                     <div class="form-actions">
                         <a href="index.php" type="btn" class="btn btn-default">Voltar</a>
                     </div>
-                    <a href="imprimir.php" type="btn" class="btn btn-default">Imprimir</a>
                 </div>
             </div>
         </div>
