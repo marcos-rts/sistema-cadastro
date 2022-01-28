@@ -22,6 +22,7 @@ if (!isset($_SESSION['UsuarioID'])) {
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <title>Página Inicial</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 </head>
 
 <body>
@@ -49,11 +50,15 @@ if (!isset($_SESSION['UsuarioID'])) {
                             <li class="nav-item">
                                 <a href="../logout.php" class="nav-link">Logout</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="../users/trocarsenha.php" class="nav-link">Trocar senha</a>
+                            </li>
+                            
                             <?php
                             if ($_SESSION['UsuarioNivel'] == '5') {
                             ?>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">Configurações gerais</a>
+                                <a href="../private/config.php" class="nav-link">Configurações gerais</a>
                             </li>
                             <?php
                             }
@@ -102,6 +107,7 @@ if (!isset($_SESSION['UsuarioID'])) {
                         <th scope="col">Chamado</th>
                         <th scope="col">Ação</th>
                     </tr>
+
                 </thead>
                 <tbody>
                     <?php
@@ -149,7 +155,7 @@ if (!isset($_SESSION['UsuarioID'])) {
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">Id</th>
+                        <!-- <th scope="col">Id</th> -->
                         <!-- <th scope="col">Nome</th> -->
                         <th scope="col">Local</th>
                         <th scope="col">Setor</th>
@@ -169,7 +175,7 @@ if (!isset($_SESSION['UsuarioID'])) {
                         foreach ($pdo->query($sql) as $row) {
                             if ($row['status'] != 'Entregue') {
                                 echo '<tr>';
-                                echo '<th scope="row">' . $row['id'] . '</th>';
+                                // echo '<th scope="row">' . $row['id'] . '</th>';
                                 echo '<td>' . $row['local'] . '</td>';
                                 echo '<td>' . $row['setor'] . '</td>';
                                 echo '<td>' . $row['entrada'] . '</td>';
@@ -205,7 +211,7 @@ if (!isset($_SESSION['UsuarioID'])) {
                 <a href="create.php" class="btn btn-success">Adicionar</a>
             </p>
             <br>
-            <table class="table table-striped">
+            <table class="table table-striped" id="tab">
                 <thead>
                     <tr>
                         <th scope="col">Id</th>
@@ -218,6 +224,7 @@ if (!isset($_SESSION['UsuarioID'])) {
                         <th scope="col">Chamado</th>
                         <th scope="col">Ação</th>
                     </tr>
+                    
                 </thead>
                 <tbody>
                     <?php
@@ -230,6 +237,7 @@ if (!isset($_SESSION['UsuarioID'])) {
                                 echo '<tr>';
                                 echo '<th scope="row">' . $row['id'] . '</th>';
                                 echo '<td>' . $row['local'] . '</td>';
+                                // echo '<td>' . $row['nome'] . '</td>';
                                 echo '<td>' . $row['setor'] . '</td>';
                                 echo '<td>' . $row['entrada'] . '</td>';
                                 echo '<td>' . $row['status'] . '</td>';
@@ -277,6 +285,56 @@ if (!isset($_SESSION['UsuarioID'])) {
     </script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="../assets/js/bootstrap.min.js"></script>
+    <script>
+	function AdicionarFiltro(tabela, coluna) {
+	    var cols = $("#" + tabela + " thead tr:first-child th").length;
+	    if ($("#" + tabela + " thead tr").length == 1) {
+	        var linhaFiltro = "<tr>";
+	        for (var i = 0; i < cols; i++) {
+	            linhaFiltro += "<th></th>";
+	        }
+	        linhaFiltro += "</tr>";
+	 
+	        $("#" + tabela + " thead").append(linhaFiltro);
+	    }
+	 
+	    var colFiltrar = $("#" + tabela + " thead tr:nth-child(2) th:nth-child(" + coluna + ")");
+	 
+	    $(colFiltrar).html("<select id='filtroColuna_" + coluna.toString() + "'  class='filtroColuna form-control'> </select>");
+	 
+	    var valores = new Array();
+	 
+	    $("#" + tabela + " tbody tr").each(function () {
+	        var txt = $(this).children("td:nth-child(" + coluna + ")").text();
+	        if (valores.indexOf(txt) < 0) {
+	            valores.push(txt);
+	        }
+	    });
+	    $("#filtroColuna_" + coluna.toString()).append("<option>Filtro</option>")
+	    for (elemento in valores) {
+	        $("#filtroColuna_" + coluna.toString()).append("<option>" + valores[elemento] + "</option>");
+	    }
+	 
+	    $("#filtroColuna_" + coluna.toString()).change(function () {
+	        var filtro = $(this).val();
+	        $("#" + tabela + " tbody tr").show();
+	        if (filtro != "Filtro") {
+	            $("#" + tabela + " tbody tr").each(function () {
+	                var txt = $(this).children("td:nth-child(" + coluna + ")").text();
+	                if (txt != filtro) {
+	                    $(this).hide();
+	                }
+	            });
+	        }
+	    });
+	 
+	};
+	AdicionarFiltro("tab", 5);
+    AdicionarFiltro("tab", 2);
+    AdicionarFiltro("tab", 3);
+
+
+	</script>
 </body>
 
 </html>
