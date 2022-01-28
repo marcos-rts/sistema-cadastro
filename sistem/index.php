@@ -53,7 +53,7 @@ if (!isset($_SESSION['UsuarioID'])) {
                             <li class="nav-item">
                                 <a href="../users/trocarsenha.php" class="nav-link">Trocar senha</a>
                             </li>
-                            
+
                             <?php
                             if ($_SESSION['UsuarioNivel'] == '5') {
                             ?>
@@ -152,7 +152,7 @@ if (!isset($_SESSION['UsuarioID'])) {
                 <a href="create.php" class="btn btn-success">Adicionar</a>
             </p>
             <br>
-            <table class="table table-striped">
+            <table class="table table-striped" id="tab2">
                 <thead>
                     <tr>
                         <!-- <th scope="col">Id</th> -->
@@ -224,7 +224,7 @@ if (!isset($_SESSION['UsuarioID'])) {
                         <th scope="col">Chamado</th>
                         <th scope="col">Ação</th>
                     </tr>
-                    
+
                 </thead>
                 <tbody>
                     <?php
@@ -286,55 +286,104 @@ if (!isset($_SESSION['UsuarioID'])) {
     <!-- Latest compiled and minified JavaScript -->
     <script src="../assets/js/bootstrap.min.js"></script>
     <script>
-	function AdicionarFiltro(tabela, coluna) {
-	    var cols = $("#" + tabela + " thead tr:first-child th").length;
-	    if ($("#" + tabela + " thead tr").length == 1) {
-	        var linhaFiltro = "<tr>";
-	        for (var i = 0; i < cols; i++) {
-	            linhaFiltro += "<th></th>";
-	        }
-	        linhaFiltro += "</tr>";
-	 
-	        $("#" + tabela + " thead").append(linhaFiltro);
-	    }
-	 
-	    var colFiltrar = $("#" + tabela + " thead tr:nth-child(2) th:nth-child(" + coluna + ")");
-	 
-	    $(colFiltrar).html("<select id='filtroColuna_" + coluna.toString() + "'  class='filtroColuna form-control'> </select>");
-	 
-	    var valores = new Array();
-	 
-	    $("#" + tabela + " tbody tr").each(function () {
-	        var txt = $(this).children("td:nth-child(" + coluna + ")").text();
-	        if (valores.indexOf(txt) < 0) {
-	            valores.push(txt);
-	        }
-	    });
-	    $("#filtroColuna_" + coluna.toString()).append("<option>Filtro</option>")
-	    for (elemento in valores) {
-	        $("#filtroColuna_" + coluna.toString()).append("<option>" + valores[elemento] + "</option>");
-	    }
-	 
-	    $("#filtroColuna_" + coluna.toString()).change(function () {
-	        var filtro = $(this).val();
-	        $("#" + tabela + " tbody tr").show();
-	        if (filtro != "Filtro") {
-	            $("#" + tabela + " tbody tr").each(function () {
-	                var txt = $(this).children("td:nth-child(" + coluna + ")").text();
-	                if (txt != filtro) {
-	                    $(this).hide();
-	                }
-	            });
-	        }
-	    });
-	 
-	};
-	AdicionarFiltro("tab", 5);
+    function AdicionarFiltro(tabela, coluna) {
+        var cols = $("#" + tabela + " thead tr:first-child th").length;
+        if ($("#" + tabela + " thead tr").length == 1) {
+            var linhaFiltro = "<tr>";
+            for (var i = 0; i < cols; i++) {
+                linhaFiltro += "<th></th>";
+            }
+            linhaFiltro += "</tr>";
+
+            $("#" + tabela + " thead").append(linhaFiltro);
+        }
+
+        var colFiltrar = $("#" + tabela + " thead tr:nth-child(2) th:nth-child(" + coluna + ")");
+
+        $(colFiltrar).html("<select id='filtroColuna_" + coluna.toString() +
+            "'  class='filtroColuna form-control'> </select>");
+
+        var valores = new Array();
+
+        $("#" + tabela + " tbody tr").each(function() {
+            var txt = $(this).children("td:nth-child(" + coluna + ")").text();
+            if (valores.indexOf(txt) < 0) {
+                valores.push(txt);
+            }
+        });
+        $("#filtroColuna_" + coluna.toString()).append("<option>Filtro</option>")
+        for (elemento in valores) {
+            $("#filtroColuna_" + coluna.toString()).append("<option>" + valores[elemento] + "</option>");
+        }
+
+        $("#filtroColuna_" + coluna.toString()).change(function() {
+            var filtro = $(this).val();
+            $("#" + tabela + " tbody tr").show();
+            if (filtro != "Filtro") {
+                $("#" + tabela + " tbody tr").each(function() {
+                    var txt = $(this).children("td:nth-child(" + coluna + ")").text();
+                    if (txt != filtro) {
+                        $(this).hide();
+                    }
+                });
+            }
+        });
+
+    };
+    AdicionarFiltro("tab", 5);
     AdicionarFiltro("tab", 2);
     AdicionarFiltro("tab", 3);
+    </script>
 
+    <script>
+    function AdicionarFiltro(tabela, coluna) {
+        var cols = $("#" + tabela + " thead tr:first-child th").length;
+        if ($("#" + tabela + " thead tr").length == 1) {
+            var linhaFiltro = "<tr>";
+            for (var i = 0; i < cols; i++) {
+                linhaFiltro += "<th></th>";
+            }
+            linhaFiltro += "</tr>";
 
-	</script>
+            $("#" + tabela + " thead").append(linhaFiltro);
+        }
+
+        var colFiltrar = $("#" + tabela + " thead tr:nth-child(2) th:nth-child(" + coluna + ")");
+
+        $(colFiltrar).html("<select id='filtroColuna_" + coluna.toString() +
+            "'  class='filtroColuna form-control'> </select>");
+
+        var valores = new Array();
+
+        $("#" + tabela + " tbody tr").each(function() {
+            var txt = $(this).children("td:nth-child(" + coluna + ")").text();
+            if (valores.indexOf(txt) < 0) {
+                valores.push(txt);
+            }
+        });
+        $("#filtroColuna_" + coluna.toString()).append("<option>Filtro</option>")
+        for (elemento in valores) {
+            $("#filtroColuna_" + coluna.toString()).append("<option>" + valores[elemento] + "</option>");
+        }
+
+        $("#filtroColuna_" + coluna.toString()).change(function() {
+            var filtro = $(this).val();
+            $("#" + tabela + " tbody tr").show();
+            if (filtro != "Filtro") {
+                $("#" + tabela + " tbody tr").each(function() {
+                    var txt = $(this).children("td:nth-child(" + coluna + ")").text();
+                    if (txt != filtro) {
+                        $(this).hide();
+                    }
+                });
+            }
+        });
+
+    };
+    AdicionarFiltro("tab2", 4);
+    AdicionarFiltro("tab2", 1);
+    AdicionarFiltro("tab2", 2);
+    </script>
 </body>
 
 </html>
