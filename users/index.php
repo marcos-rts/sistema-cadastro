@@ -30,7 +30,8 @@ if (!isset($_SESSION['UsuarioID'])) {
             <nav class="navbar navbar-expand-lg ftco_navbar ftco-navbar-dark" id="ftco-navbar">
                 <div class="container">
                     <a class="navbar-brand" href="../index.php">Sistema de Controle de Maquinas</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+                        aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="fa fa-bars"></span>
                         Menu
                     </button>
@@ -48,12 +49,16 @@ if (!isset($_SESSION['UsuarioID'])) {
                             <li class="nav-item">
                                 <a href="../logout.php" class="nav-link">Logout</a>
                             </li>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../users/trocarsenha.php" class="nav-link">Trocar senha</a>
+                            </li>
                             <?php
                             if ($_SESSION['UsuarioNivel'] == '5') {
                             ?>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">Configurações gerais</a>
-                                </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">Configurações gerais</a>
+                            </li>
                             <?php
                             }
                             ?>
@@ -82,21 +87,21 @@ if (!isset($_SESSION['UsuarioID'])) {
         <?php
         if ($_SESSION['UsuarioNivel'] == '1' || $_SESSION['UsuarioNivel'] == '2') {
         ?>
-            <div class="row">
-                <br>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Id</th>
-                            <!-- <th scope="col">Nome</th> -->
-                            <th scope="col">Nome</th>
-                            <th scope="col">Usuario</th>
-                            <th scope="col">Ativo</th>
-                            <th scope="col">Ação</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
+        <div class="row">
+            <br>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <!-- <th scope="col">Nome</th> -->
+                        <th scope="col">Nome</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Ativo</th>
+                        <th scope="col">Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
                         include 'banco.php';
                         $pdo = Banco::conectar();
                         $sql = 'SELECT * FROM usuarios ORDER BY id DESC';
@@ -124,9 +129,9 @@ if (!isset($_SESSION['UsuarioID'])) {
                         }
                         Banco::desconectar();
                         ?>
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
+        </div>
         <?php
         }
         ?>
@@ -136,21 +141,21 @@ if (!isset($_SESSION['UsuarioID'])) {
         <?php
         if ($_SESSION['UsuarioNivel'] == '3' || $_SESSION['UsuarioNivel'] == '4') {
         ?>
-            <div class="row">
-                <br>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Id</th>
-                            <!-- <th scope="col">Nome</th> -->
-                            <th scope="col">Nome</th>
-                            <th scope="col">Usuario</th>
-                            <th scope="col">Ativo</th>
-                            <th scope="col">Ação</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
+        <div class="row">
+            <br>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <!-- <th scope="col">Nome</th> -->
+                        <th scope="col">Nome</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Ativo</th>
+                        <th scope="col">Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
                         include 'banco.php';
                         $pdo = Banco::conectar();
                         $sql = 'SELECT * FROM usuarios ORDER BY id DESC';
@@ -177,7 +182,7 @@ if (!isset($_SESSION['UsuarioID'])) {
                             }
                         }
                         foreach ($pdo->query($sql) as $row) {
-                            if ($row['nome'] != $_SESSION['UsuarioNome']) {
+                            if ($row['nome'] != $_SESSION['UsuarioNome'] && $row['ativo'] == '1') {
                                 echo '<tr>';
                                 echo '<th scope="row">' . $row['id'] . '</th>';
                                 echo '<td>' . $row['nome'] . '</td>';
@@ -197,9 +202,9 @@ if (!isset($_SESSION['UsuarioID'])) {
                         }
                         Banco::desconectar();
                         ?>
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
+        </div>
         <?php
         }
         ?>
@@ -208,7 +213,7 @@ if (!isset($_SESSION['UsuarioID'])) {
         <?php
         if ($_SESSION['UsuarioNivel'] == '5'){
         ?>
-<div class="row">
+        <div class="row">
             <p>
                 <a href="create.php" class="btn btn-success">Adicionar</a>
             </p>
@@ -271,8 +276,10 @@ if (!isset($_SESSION['UsuarioID'])) {
 
         </div>
     </footer>
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
     </script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="../assets/js/bootstrap.min.js"></script>
