@@ -29,35 +29,24 @@ if (null == $id) {
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <title>Imprimir</title>
+    <style>
+      .tdcont{
+        width: 100%;
+    height: 100%;
+    overflow:hidden;
+      }
+    </style>
 </head>
 
 <body>
-<div class=container>
-<div class=container>
-<div class=container>
-<div class=container>
-<div class=container>
-<form>
-<input type="button" value="Print this page" onClick="window.print()"/>
-<a href="index.php" type="btn" class="btn btn-default">Voltar</a>
-</form>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-
-
 <div class="container">
-    <div class="">
+    <div class="container">
         <div class="">
             <div class="card-header">
-                <h3 class="well">Protocolo de Recebimento e entrega de equipamentos</h3>
+                <h3 class="well text-center">PROTOCOLO DE RECEBIMENTO E ENTREGUA DE EQUIPAMENTOS</h3>
             </div>
             <div class="container">
-<br>
-    <table class="table" border="1">
+    <table class="table table-sm table-bordered" border="1">
 
 
       <tbody>
@@ -79,12 +68,11 @@ if (null == $id) {
     </table>
 
     <div class="card-header">
-        <h3 class="well">Dados do Computador</h3>
+        <h3 class="well text-center">DADOS DO COMPUTADOR</h3>
     </div>
 
-    <br>
 
-    <table class="table" border="1">
+    <table class="table table-sm table-bordered" border="1">
 
 
       <tbody>
@@ -111,12 +99,11 @@ if (null == $id) {
       </tbody>
     </table>
     <div class="card-header">
-        <h3 class="well">Dados Pessoais</h3>
+        <h3 class="well text-center">DADOS PESSOAIS</h3>
     </div>
 
-    <br>
 
-    <table class="table" border="1">
+    <table class="table table-sm table-bordered" border="1">
 
 
       <tbody>
@@ -148,12 +135,12 @@ if (null == $id) {
 
     <div class="container">
     <div class="container">
-    <table class="table" border="1">
+    <table class="table table-bordered" border="1">
 
 
 <tbody>
     <tr>
-        <th scope="" colspan="6"><h3 class="well">Protocolo de Recebimento e entrega de equipamentos</h3></th>
+        <th scope="" colspan="6"><h3 class="well text-center">Protocolo de Recebimento e entrega de equipamentos</h3></th>
 </tr>
 <tr>
     <th scope="">Numero de Protocolo</th>
@@ -201,12 +188,20 @@ if (null == $id) {
     </div>
 </div>
 <footer>
-            <div class="container">
-            <span class="badge badge-secondary">v 1.0.0 &copy; 2021 - Marcos A. R. T. dos Santos</span>
-
-
-            
-                    </div>
+<div class=container>
+<div class=container>
+<div class=container>
+<div class=container>
+<div class=container>
+<form>
+<input type="button" value="Print this page" onClick="window.print()"/>
+<a href="index.php" type="btn" class="btn btn-default">Voltar</a>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
         </footer>
 <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
         crossorigin="anonymous"></script>
