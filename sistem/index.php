@@ -178,11 +178,11 @@ if (!isset($_SESSION['UsuarioID'])) {
                                 // echo '<th scope="row">' . $row['id'] . '</th>';
                                 echo '<td>' . $row['local'] . '</td>';
                                 echo '<td>' . $row['setor'] . '</td>';
-                                echo '<td>' . $row['entrada'] . '</td>';
+                                echo '<td width=150>' . $row['entrada'] . '</td>';
                                 echo '<td>' . $row['status'] . '</td>';
                                 echo '<td>' . $row['chapa'] . '</td>';
                                 echo '<td>' . $row['chamado'] . '</td>';
-                                echo '<td width=300>';
+                                echo '<td width=265>';
                                 echo '<a class="btn btn-primary" href="read.php?id=' . $row['id'] . '">Info</a>';
                                 echo ' ';
                                 echo '<a class="btn btn-warning" href="update.php?id=' . $row['id'] . '">Atualizar</a>';
