@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $chapa = $_POST['chapa'];
     $chamado = $_POST['chamado'];
     $recebe = $_SESSION['UsuarioNome'];
-    $solucao = $_SESSION['solucao'];
+    $solucao = $_POST['solucao'];
 
     $validacao = true;
 
