@@ -50,12 +50,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $chamado = $_POST['chamado'];
     $recebe = $_SESSION['UsuarioNome'];
     $solucao = $_POST['solucao'];
+<<<<<<< HEAD
     $modelo = $_POST['modelo'];
     $ram = $_POST['ram'];
     $processador = $_POST['processador'];
     $fonte = $_POST['fonte'];
     $bios = $_POST['bios'];
     $hd = $_POST['hd'];
+=======
+>>>>>>> b7d821aa26fbb4a0b6bd0d80c6f50d769152426b
 
     $validacao = true;
 
