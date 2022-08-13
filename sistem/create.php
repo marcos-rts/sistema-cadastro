@@ -33,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $chapaErro = null;
     $chamadoErro = null;
     $solucaoErro = null;
+    $modeloErro = null;
 
     $nome = $_POST['nome'];
     $telefone = $_POST['telefone'];
@@ -48,7 +49,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $chapa = $_POST['chapa'];
     $chamado = $_POST['chamado'];
     $recebe = $_SESSION['UsuarioNome'];
-    $solucao = $_SESSION['solucao'];
+    $solucao = $_POST['solucao'];
+    $modelo = $_POST['modelo'];
+    $ram = $_POST['ram'];
+    $processador = $_POST['processador'];
+    $fonte = $_POST['fonte'];
+    $bios = $_POST['bios'];
+    $hd = $_POST['hd'];
 
     $validacao = true;
 
@@ -78,15 +85,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $emailErro = 'Por favor digite um endereço de email!';
             $validacao = False;
         }
+
+	if (!empty($_POST['tecnico'])){
+		$tecnico = $_POST['tecnico'];
+	} else {
+		$tecnico = "-";
+	}
+	if (!empty($_POST['saida'])){
+		$saida = $_POST['saida'];
+	} else {
+		$saida = '0000-00-00';
+	}
+
+	if (!empty($_POST['chamado'])){
+		$chamado = $_POST['chamado'];
+	} else {
+		$chamado = '0000';
+	}
+
+	if (!empty($_POST['chapa'])){
+		$chapa = $_POST['chapa'];
+	} else {
+		$chapaErro = 'Por favor digite o número da chapa!';
+		$validacao = False;
+	}
+
+	if (!empty($_POST['solucao'])){
+	        $solucao = $_POST['solucao'];
+        } else {
+                $solucao = '-';
+        }
     }
 
     //Inserindo no Banco:
     if ($validacao) {
         $pdo = Banco::conectar();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO maquina (nome, telefone, email, local, setor, entrada, saida, tecnico, status, equip, chapa, chamado, problema, solucao, recebe) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $sql = "INSERT INTO maquina (nome, telefone, email, local, setor, entrada, saida, tecnico, status, equip, chapa, chamado, problema, solucao, recebe, modelo, ram, processador, fonte, bios, hd) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $q = $pdo->prepare($sql);
-        $q->execute(array($nome, $telefone, $email, $local, $setor, $entrada, $saida, $tecnico, $status, $equip, $chapa, $chamado, $problema, $solucao, $recebe));
+        $q->execute(array($nome, $telefone, $email, $local, $setor, $entrada, $saida, $tecnico, $status, $equip, $chapa, $chamado, $problema, $solucao, $recebe, $modelo, $ram, $processador, $fonte, $bios, $hd));
         Banco::desconectar();
         header("Location: index.php");
     }
@@ -864,9 +901,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <option value="NPM - Nucle de Prod. de Mudas">NPM - Nucle de Prod. de Mudas</option>
                                             <option value="APTA - Agência Paulista de Tec. dos Agronegocios">APTA - Agência Paulista de Tec. dos Agronegocios
                                             </option>
-                                            <option value="CDA - Corrdenadoria de Def. Agropecuaria">CDA - Corrdenadoria de Def. Agropecuaria</option>
+                                            <option value="CDA - Coordenadoria de Def. Agropecuaria">CDA - Corrdenadoria de Def. Agropecuaria</option>
                                             <option value="CATI - Coordenadoria de Desenvolvimento Rural Sustentável">CATI - Coordenadoria de Desenvolvimento Rural
                                                 Sustentável</option>
+					   <option value="CTIC - Centro de Tecnologia Informação e Comunicação">CTIC - Centro de Tecnologia Informação e Comunicação</option>
 
                                         </select>
                                         <?php if (!empty($localErro)) : ?>
@@ -912,7 +950,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <div class="control-group  <?php echo !empty($tecnicoErro) ? 'error ' : ''; ?>">
-                                    <label class="control-label">Tecnico quem Arrumou</label>
+                                    <label class="control-label">Tecnico que Arrumou</label>
                                     <div class="controls">
                                         <input size="50" class="form-control" name="tecnico" type="text"
                                             value="<?php echo !empty($tecnico) ? $tecnico : ''; ?>">
@@ -930,13 +968,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <select class="form-control" name="status" placeholder="status"
                                             value="<?php echo !empty($status) ? $status : ''; ?>">
                                             <option value="000"></option>
-                                            <option value="Não mexido"> Não mexido </option>
-                                            <option value="Sendo Mexido"> Sendo Mexido </option>
+                                            <option value="Em Aberto"> Em Aberto </option>
+                                            <option value="Em Manutenção"> Em Manutenção </option>
                                             <option value="Pronta"> Pronta </option>
                                             <option value="Entregue"> Entregue </option>
                                             <option value="Baixa"> Baixa </option>
-                                            <option value="Transferencia"> Transferencia </option>
+                                       <!-- <option value="Transferencia"> Transferencia </option> -->
                                             <option value="Emprestado"> Emprestado </option>
+					    <option value="Livre"> Livre </option>
                                         </select>
                                         <?php if (!empty($statusErro)) : ?>
                                         <span class="text-danger"><?php echo $statusErro; ?></span>
@@ -993,6 +1032,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         </div>
 
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <div class="control-group  <?php echo !empty($modeloErro) ? 'error ' : ''; ?>">
+                                    <label class="control-label">Modelo</label>
+                                    <div class="controls">
+                                        <input size="50" class="form-control" name="modelo" type="text"
+                                            value="<?php echo !empty($modelo) ? $modelo : ''; ?>">
+                                        <?php if (!empty($modeloErro)) : ?>
+                                        <span class="text-danger"><?php echo $modeloErro; ?></span>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+				<div class="form-check form-check-inline">
+  					<input class="form-check-input" type="checkbox" name="ram" id="ram" value="1">
+  					<label class="form-check-label" for="ram">Memoria RAM</label>
+				</div>
+				<div class="form-check form-check-inline">
+  					<input class="form-check-input" type="checkbox" name="processador" id="processador" value="1">
+  					<label class="form-check-label" for="processador">Processador</label>
+				</div>
+				<div class="form-check form-check-inline">
+  					<input class="form-check-input" type="checkbox" name="fonte" id="fonte" value="1">
+  					<label class="form-check-label" for="fonte">Fonte</label>
+				</div>
+				<div class="form-check form-check-inline">
+  					<input class="form-check-input" type="checkbox" name="bios" id="bios" value="1">
+  					<label class="form-check-label" for="bios">Bateria BIOS</label>
+				</div>
+				<div class="form-check form-check-inline">
+  					<input class="form-check-input" type="checkbox" name="hd" id="hd" value="1">
+  					<label class="form-check-label" for="hd">HD</label>
+				</div>
+                       </div>
+
+
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <div class="control-group  <?php echo !empty($problemaErro) ? 'error ' : ''; ?>">
@@ -1043,8 +1119,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
     <footer>
         <div class="container">
-            <span class="badge badge-secondary">v 1.0.0</span>
-            <p>&copy; 2021 - Marcos A. R. T. dos Santos</p>
+            <span class="badge badge-secondary">v 1.2.0 &copy; 2021 - Marcos A. R. T. dos Santos </span>
+            <p</p>
 
 
         </div>

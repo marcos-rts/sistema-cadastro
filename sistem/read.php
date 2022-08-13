@@ -186,6 +186,47 @@ if (null == $id) {
                         </div>
                     </div>
                     <br>
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="modelo">Modelo</label>
+                            <div class="controls form-control disabled">
+                                <label class="carousel-inner">
+                                    <?php echo $data['modelo']; ?>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+				<?php if ($data['ram'] == '1'){ 
+						echo "<br> <br> | ✓ Memoria RAM | ";
+					}else{echo "<br> <br> | ✘ Memoria RAM |";}
+				?>
+                        </div>
+                        <div class="form-group">
+				<?php if ($data['processador'] == '1'){ 
+						echo "<br> <br> | ✓ Processador | ";
+					}else{echo "<br> <br> | ✘ Processador |";}
+				?>
+                        </div>
+                        <div class="form-group">
+				<?php if ($data['fonte'] == '1'){ 
+						echo "<br> <br> | ✓ Fonte |";
+					}else{echo "<br> <br> | ✘ Fonte |";}
+				?>
+                        </div>
+                        <div class="form-group">
+				<?php if ($data['bios'] == '1'){ 
+						echo "<br> <br> | ✓ Bateria BIOS |";
+					}else{echo "<br> <br> | ✘ Bateria BIOS |";}
+				?>
+                        </div>
+                        <div class="form-group">
+				<?php if ($data['hd'] == '1'){ 
+						echo "<br> <br> | ✓ HD | ";
+					}else{echo "<br> <br> | ✘ HD | ";}
+				?>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label for="problema">Problema</label>
@@ -228,8 +269,8 @@ if (null == $id) {
     </div>
     <footer>
         <div class="container">
-            <span class="badge badge-secondary">v 1.0.0</span>
-            <p>&copy; 2021 - Marcos A. R. T. dos Santos</p>
+            <span class="badge badge-secondary">v 1.0.2 &copy; 2021 - Marcos A. R. T. dos Santos</span>
+            
 
 
         </div>

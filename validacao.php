@@ -6,7 +6,7 @@
 }
 
 // Tenta se conectar ao servidor MySQL
-$conect = mysqli_connect('localhost', 'root', '', 'novo_sistema') or trigger_error(mysql_error());
+$conect = mysqli_connect('localhost', 'suporte', 'sup0rt32022', 'novosistema') or trigger_error(mysql_error());
 // Tenta se conectar a um banco de dados MySQL
 
 $usuario = $_POST['usuario'];

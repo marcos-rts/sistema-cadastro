@@ -26,6 +26,64 @@ if (!isset($_SESSION['UsuarioID'])) {
 </head>
 
 <body>
+<header>
+<div class="container">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="../index.php">Sistema de Controle de Maquinas</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#conteudoNavbarSuportado" aria-controls="conteudoNavbarSuportado" aria-expanded="false" aria-label="Alterna navegação">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
+    <ul class="navbar-nav ml-auto mr-md-3">
+      <li class="nav-item active">
+        <a class="nav-link" href="../index.php">Home <span class="sr-only">(página atual)</span></a>
+      </li>
+      <li class="nav-item">
+       <!--  <a class="nav-link" href="#">Link</a> -->
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Maquinas
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="../index.php">Pendentes</a>
+          <a class="dropdown-item" href="../sistem/transferencia.php">Transferencia</a>
+          <a class="dropdown-item" href="../sistem/entregues.php">Entregues</a>
+          <a class="dropdown-item" href="../sistem/maquinas_livres.php">Livres</a>
+          <a class="dropdown-item" href="#"></a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item disabled" href="#">Em Breve</a>
+        </div>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         <?php echo $_SESSION['UsuarioNome'] ?>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+           <a class="dropdown-item" href="../users/index.php">Informação</a>
+          <a class="dropdown-item" href="../users/trocarsenha.php">Trocar Senha</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="../logout.php">Logout</a>
+          <?php
+	  if ($_SESSION['UsuarioNivel'] == '5' || $_SESSION['UsuarioID'] == '7') {
+          ?>
+          <a href="../private/config.php" class="dropdown-item">Configurações gerais</a>
+          <?php
+          }
+          ?>
+        </div>
+      </li>
+      <li class="nav-item">
+       <!--  <a class="nav-link disabled" href="#">Desativado</a> -->
+      </li>
+    </ul>
+  </div>
+</nav>
+</div>
+</header>
+
+<!--
     <header>
         <div class="container">
             <nav class="navbar navbar-expand-lg ftco_navbar ftco-navbar-dark" id="ftco-navbar">
@@ -44,6 +102,9 @@ if (!isset($_SESSION['UsuarioID'])) {
                             <li class="nav-item">
                                 <a href="entregues.php" class="nav-link">Entregues</a>
                             </li>
+			   <li class="nav-item">
+				<a href="maquinas_livres.php" class="nav-link">Maq. Livres</a>
+			    </li>
                             <li class="nav-item">
                                 <a href="../users/index.php" class="nav-link">Usuario</a>
                             </li>
@@ -55,7 +116,7 @@ if (!isset($_SESSION['UsuarioID'])) {
                             </li>
 
                             <?php
-                            if ($_SESSION['UsuarioNivel'] == '5') {
+                            if ($_SESSION['UsuarioNivel'] == '5' || $_SESSION['UsuarioID'] == '7') {
                             ?>
                             <li class="nav-item">
                                 <a href="../private/config.php" class="nav-link">Configurações gerais</a>
@@ -73,18 +134,9 @@ if (!isset($_SESSION['UsuarioID'])) {
             <!-- END nav -->
         </div>
     </header>
+
     <div class="container">
-        <p>Conectado como <?php echo $_SESSION['UsuarioNome'] ?> </p>
-
-        <!-- <div class="jumbotron">
-            <p>Conectado como <?php echo $_SESSION['UsuarioNome'], 'nivel: ', $_SESSION['Us']; ?> </p>
-
-            <div class="row">
-                <h2>SAA - Controle de Maquinas</h2>
-            </div>
-
-        </div> -->
-        </br>
+       </br>
         <!-- config de nivel 1 -->
         <?php
         if ($_SESSION['UsuarioNivel'] == '1') {
@@ -116,7 +168,7 @@ if (!isset($_SESSION['UsuarioID'])) {
                         $sql = 'SELECT * FROM maquina ORDER BY id DESC';
 
                         foreach ($pdo->query($sql) as $row) {
-                            if ($row['status'] != 'Entregue') {
+                            if ($row['status'] != 'Entregue' || $row['status'] != 'Livre' || $row['status'] != 'Transferencia' ) {
                                 echo '<tr>';
                                 echo '<th scope="row">' . $row['id'] . '</th>';
                                 echo '<td>' . $row['local'] . '</td>';
@@ -155,7 +207,7 @@ if (!isset($_SESSION['UsuarioID'])) {
             <table class="table table-striped" id="tab2">
                 <thead>
                     <tr>
-                        <!-- <th scope="col">Id</th> -->
+                        <th scope="col">Id</th>
                         <!-- <th scope="col">Nome</th> -->
                         <th scope="col">Local</th>
                         <th scope="col">Setor</th>
@@ -174,14 +226,17 @@ if (!isset($_SESSION['UsuarioID'])) {
 
                         foreach ($pdo->query($sql) as $row) {
                             if ($row['status'] != 'Entregue') {
+                            if ($row['status'] != 'Livre' ) {
+			    if ($row['status'] != 'Transferencia'){
+			    if ($row['status'] != 'Arquivado'){
                                 echo '<tr>';
-                                // echo '<th scope="row">' . $row['id'] . '</th>';
+                                echo '<th scope="row">' . $row['id'] . '</th>';
                                 echo '<td>' . $row['local'] . '</td>';
                                 echo '<td>' . $row['setor'] . '</td>';
                                 echo '<td width=150>' . $row['entrada'] . '</td>';
-                                echo '<td>' . $row['status'] . '</td>';
+				echo '<td>' . $row['status'] . '</td>';
                                 echo '<td>' . $row['chapa'] . '</td>';
-                                echo '<td>' . $row['chamado'] . '</td>';
+                                echo '<td>' . $row['chamado'] . '-' . $row['id'] .  '</td>';
                                 echo '<td width=265>';
                                 echo '<a class="btn btn-primary" href="read.php?id=' . $row['id'] . '">Info</a>';
                                 echo ' ';
@@ -191,6 +246,9 @@ if (!isset($_SESSION['UsuarioID'])) {
                                 echo '</td>';
                                 echo '</tr>';
                             }
+			}
+			}
+			}
                         }
                         Banco::desconectar();
                         ?>
@@ -234,6 +292,9 @@ if (!isset($_SESSION['UsuarioID'])) {
 
                         foreach ($pdo->query($sql) as $row) {
                             if ($row['status'] != 'Entregue') {
+                            if ($row['status'] != 'Livre') {
+			    if ($row['status'] != 'Transferencia'){
+			    if ($row['status'] != 'Arquivado'){
                                 echo '<tr>';
                                 echo '<th scope="row">' . $row['id'] . '</th>';
                                 echo '<td>' . $row['local'] . '</td>';
@@ -255,6 +316,9 @@ if (!isset($_SESSION['UsuarioID'])) {
                                 echo '</tr>';
                             }
                         }
+			}
+			}
+			}
                         Banco::desconectar();
                         ?>
                 </tbody>
@@ -273,7 +337,7 @@ if (!isset($_SESSION['UsuarioID'])) {
 
     <footer>
         <div class="container">
-            <span class="badge badge-secondary">v 1.0.0 &copy; 2021 - Marcos A. R. T. dos Santos</span>
+            <span class="badge badge-secondary">v 1.2.0 &copy; 2021 - Marcos A. R. T. dos Santos</span>
 
 
         </div>
@@ -380,10 +444,12 @@ if (!isset($_SESSION['UsuarioID'])) {
         });
 
     };
-    AdicionarFiltro("tab2", 4);
-    AdicionarFiltro("tab2", 1);
     AdicionarFiltro("tab2", 2);
+    AdicionarFiltro("tab2", 3);
+    AdicionarFiltro("tab2", 5);
     </script>
+<script src="https://apps.elfsight.com/p/platform.js" defer></script>
+<div class="elfsight-app-0adf68fa-23ad-4b8d-81ce-a072aa689b8a"></div>
 </body>
 
 </html>

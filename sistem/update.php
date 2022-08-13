@@ -1,6 +1,14 @@
 <?php
 
 require 'banco.php';
+//Iniciando a sessão:
+if (session_status() !== PHP_SESSION_ACTIVE) {
+  session_start();
+}
+//Acessando valores dentro de uma sessão:
+//echo $_SESSION['UsuarioID'];
+//echo $_SESSION['UsuarioNome'];
+
 
 $id = null;
 if (!empty($_GET['id'])) {
@@ -27,8 +35,10 @@ if (!empty($_POST)) {
     $chapaErro = null;
     $chamadoErro = null;
     $solucaoErro = null;
+    $modeloErro = null;
 
 
+    $status = $_POST['status'];
     $nome = $_POST['nome'];
     $telefone = $_POST['telefone'];
     $email = $_POST['email'];
@@ -37,13 +47,15 @@ if (!empty($_POST)) {
     $setor = $_POST['setor'];
     $saida = $_POST['saida'];
     $entrada = $_POST['entrada'];
+//if ($status == 'Pronta'){
+//	$tecnico = $_SESSION['UsuarioNome'];
+// }
     $tecnico = $_POST['tecnico'];
-    $status = $_POST['status'];
     $equip = $_POST['equip'];
     $chapa = $_POST['chapa'];
     $chamado = $_POST['chamado'];
     $solucao = $_POST['solucao'];
-
+    $modelo = $_POST['modelo'];
 
     //Validação
     $validacao = true;
@@ -66,20 +78,36 @@ if (!empty($_POST)) {
         $validacao = false;
     }
 
-    if ($status == 000) {
-        $statusErro = 'Por favor Escolhe um Status!';
-        $validacao = false;
+    if ($status == 'Pronta' ) {
+    $tecnico = $_SESSION['UsuarioNome'];
+    }
+	
+    if (empty($saida)) {
+        $saida = '0000-00-00';
     }
 
+    if (empty($chamado)) {
+        $chamado = '000';
+    }
+
+    if (empty($chapa)) {
+        $chapaErro = 'Por favor digite o número de chapa';
+	$validacao = False;
+    }
+
+
+    if (empty($solucao)) {
+        $solucao = '-';
+    }
 
 
     // update data
     if ($validacao) {
         $pdo = Banco::conectar();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "UPDATE maquina  set nome = ?, telefone = ?, email = ?, local = ?, setor = ?, entrada = ?, saida = ?, tecnico = ?, status = ?, equip = ?, chapa = ?, chamado = ?, problema = ?, solucao = ? WHERE id = ?";
+        $sql = "UPDATE maquina  set nome = ?, telefone = ?, email = ?, local = ?, setor = ?, entrada = ?, saida = ?, tecnico = ?, status = ?, equip = ?, chapa = ?, chamado = ?, problema = ?, solucao = ?, modelo = ? WHERE id = ?";
         $q = $pdo->prepare($sql);
-        $q->execute(array($nome, $telefone, $email, $local, $setor, $entrada, $saida, $tecnico, $status, $equip, $chapa, $chamado, $problema, $solucao, $id));
+        $q->execute(array($nome, $telefone, $email, $local, $setor, $entrada, $saida, $tecnico, $status, $equip, $chapa, $chamado, $problema, $solucao, $modelo, $id));
         Banco::desconectar();
         header("Location: index.php");
     }
@@ -104,6 +132,7 @@ if (!empty($_POST)) {
     $chapa = $data['chapa'];
     $chamado = $data['chamado'];
     $solucao = $data['solucao'];
+    $modelo = $data['modelo'];
 
     Banco::desconectar();
 }
@@ -125,40 +154,62 @@ if (!empty($_POST)) {
 
 <body>
 <header>
-        <div class="container">
-            <nav class="navbar navbar-expand-lg ftco_navbar ftco-navbar-dark" id="ftco-navbar">
-                <div class="container">
-                    <a class="navbar-brand" href="../index.php">Sistema de Controle de Maquinas</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
-                        aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="fa fa-bars"></span>
-                        Menu
-                    </button>
-                    <div class="collapse navbar-collapse" id="ftco-nav">
-                        <ul class="navbar-nav ml-auto mr-md-3">
-                            <li class="nav-item active">
-                                <a href="index.php" class="nav-link">Pendentes</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="entregues.php" class="nav-link">Entregues</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="../users/index.php" class="nav-link">Usuario</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="../logout.php" class="nav-link">Logout</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">Configurações gerais</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-            </nav>
-            <!-- END nav -->
+<div class="container">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="../index.php">Sistema de Controle de Maquinas</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#conteudoNavbarSuportado" aria-controls="conteudoNavbarSuportado" aria-expanded="false" aria-label="Alterna navegação">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
+    <ul class="navbar-nav ml-auto mr-md-3">
+      <li class="nav-item active">
+        <a class="nav-link" href="../index.php">Home <span class="sr-only">(página atual)</span></a>
+      </li>
+      <li class="nav-item">
+       <!--  <a class="nav-link" href="#">Link</a> -->
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Maquinas
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="../index.php">Pendentes</a>
+          <a class="dropdown-item" href="../sistem/transferencia.php">Transferencia</a>
+          <a class="dropdown-item" href="../sistem/entregues.php">Entregues</a>
+          <a class="dropdown-item" href="../sistem/maquinas_livres.php">Livres</a>
+          <a class="dropdown-item" href="#"></a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item disabled" href="#">Em Breve</a>
         </div>
-    </header>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         <?php echo $_SESSION['UsuarioNome'] ?>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+           <a class="dropdown-item" href="../users/index.php">Informação</a>
+          <a class="dropdown-item" href="../users/trocarsenha.php">Trocar Senha</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="../logout.php">Logout</a>
+          <?php
+	  if ($_SESSION['UsuarioNivel'] == '5' || $_SESSION['UsuarioID'] == '7') {
+          ?>
+          <a href="../private/config.php" class="dropdown-item">Configurações gerais</a>
+          <?php
+          }
+          ?>
+        </div>
+      </li>
+      <li class="nav-item">
+       <!--  <a class="nav-link disabled" href="#">Desativado</a> -->
+      </li>
+    </ul>
+  </div>
+</nav>
+</div>
+</header>
+<br>
     <div class="container">
 
         <div class="span10 offset1">
@@ -230,115 +281,132 @@ if (!empty($_POST)) {
                                             value="<?php echo !empty($setor) ? $setor : ''; ?>">
                                             <option value="000"></option>
                                             <?php
-                                            if ($setor == "DSMM") {
+                                            if ($setor == "DSMM - Dep de Sementes, Mudas e Matrizes") {
                                             ?>
-                                            <option selected value="DSMM">DSMM - Dep de Sementes, Mudas e Matrizes
+                                            <option selected value="DSMM - Dep de Sementes, Mudas e Matrizes">DSMM - Dep de Sementes, Mudas e Matrizes
                                             </option>
-                                            <option value="EDR">EDR - Escritorio dev. Rural</option>
-                                            <option value="CA">CA - Casa de Agricultura</option>
-                                            <option value="NPM">NPM - Nucle de Prod. de Mudas</option>
-                                            <option value="APTA">APTA - Agência Paulista de Tec. dos Agronegocios
+                                            <option value="EDR - Escritorio dev. Rural">EDR - Escritorio dev. Rural</option>
+                                            <option value="CA - Casa de Agricultura">CA - Casa de Agricultura</option>
+                                            <option value="NPM - Nucleo de Prod. de Mudas">NPM - Nucleo de Prod. de Mudas</option>
+                                            <option value="APTA - Agência Paulista de Tec. dos Agronegocios">APTA - Agência Paulista de Tec. dos Agronegocios
                                             </option>
-                                            <option value="CDA">CDA - Corrdenadoria de Def. Agropecuaria</option>
-                                            <option value="CATI">CATI - Coordenadoria de Desenvolvimento Rural
-                                                Sustentável</option>
+                                            <option value="CDA - Coordenadoria de Def. Agropecuaria">CDA - Coordenadoria de Def. Agropecuaria</option>
+                                            <option value="CATI - Coordenadoria de Desenvolvimento Rural Sustentavel">CATI - Coordenadoria de Desenvolvimento Rural Sustentável</option>
+					    <option value="CTIC - Centro de Tecnologia Informação e Comunicação">CTIC - Centro de Tecnologia Informação e Comunicação</option>
+                                            <?php
+                                            }
+                                            ?>
+                                            <?php
+                                            if ($setor == "EDR - Escritorio dev. Rural") {
+                                            ?>
+                                            <option value="DSMM - Dep de Sementes, Mudas e Matrizes">DSMM - Dep de Sementes, Mudas e Matrizes</option>
+                                            <option selected value="EDR - Escritorio dev. Rural">EDR - Escritorio dev. Rural</option>
+                                            <option value="CA - Casa de Agricultura">CA - Casa de Agricultura</option>
+                                            <option value="NPM - Nucleo de Prod. de Mudas">NPM - Nucleo de Prod. de Mudas</option>
+                                            <option value="APTA - Agência Paulista de Tec. dos Agronegocios">APTA - Agência Paulista de Tec. dos Agronegocios
+                                            </option>
+                                            <option value="CDA - Coordenadoria de Def. Agropecuaria">CDA - Coordenadoria de Def. Agropecuaria</option>
+                                            <option value="CATI - Coordenadoria de Desenvolvimento Rural Sustentável">CATI - Coordenadoria de Desenvolvimento Rural Sustentável</option>
 
                                             <?php
                                             }
                                             ?>
                                             <?php
-                                            if ($setor == "EDR") {
+                                            if ($setor == "CA - Casa de Agricultura") {
                                             ?>
-                                            <option value="DSMM">DSMM - Dep de Sementes, Mudas e Matrizes</option>
-                                            <option selected value="EDR">EDR - Escritorio dev. Rural</option>
-                                            <option value="CA">CA - Casa de Agricultura</option>
-                                            <option value="NPM">NPM - Nucle de Prod. de Mudas</option>
-                                            <option value="APTA">APTA - Agência Paulista de Tec. dos Agronegocios
-                                            </option>
-                                            <option value="CDA">CDA - Corrdenadoria de Def. Agropecuaria</option>
-                                            <option value="CATI">CATI - Coordenadoria de Desenvolvimento Rural
-                                                Sustentável</option>
-
+                                            <option value="DSMMM - Dep de Sementes, Mudas e Matrizes">DSMM - Dep de Sementes, Mudas e Matrizes</option>
+                                            <option value="EDR - Escritorio dev. Rural">EDR - Escritorio dev. Rural</option>
+                                            <option selected value="CA - Casa de Agricultura">CA - Casa de Agricultura</option>
+                                            <option value="NPM - Nucleo de Prod. de Mudas">NPM - Nucleo de Prod. de Mudas</option>
+                                            <option value="APTA - Agência Paulista de Tec. dos Agronegocio">APTA - Agência Paulista de Tec. dos Agronegocios</option>
+                                            <option value="CDA - Coordenadoria de Def. Agropecuaria">CDA - Coordenadoria de Def. Agropecuaria</option>
+                                            <option value="CATI - Coordenadoria de Desenvolvimento Rural Sustentável">CATI - Coordenadoria de Desenvolvimento Rural Sustentável</option>
+					    <option value="CTIC - Centro de Tecnologia Informação e Comunicação">CTIC - Centro de Tecnologia Informação e Comunicação</option>
                                             <?php
                                             }
                                             ?>
                                             <?php
-                                            if ($setor == "CA") {
+                                            if ($setor == "NPM - Nucleo de Prod. de Mudas") {
                                             ?>
-                                            <option value="DSMM">DSMM - Dep de Sementes, Mudas e Matrizes</option>
-                                            <option value="EDR">EDR - Escritorio dev. Rural</option>
-                                            <option selected value="CA">CA - Casa de Agricultura</option>
-                                            <option value="NPM">NPM - Nucle de Prod. de Mudas</option>
-                                            <option value="APTA">APTA - Agência Paulista de Tec. dos Agronegocios
-                                            </option>
-                                            <option value="CDA">CDA - Corrdenadoria de Def. Agropecuaria</option>
-                                            <option value="CATI">CATI - Coordenadoria de Desenvolvimento Rural
-                                                Sustentável</option>
-
+                                            <option value="DSMM - Dep de Sementes, Mudas e Matrizes">DSMM - Dep de Sementes, Mudas e Matrizes</option>
+                                            <option value="EDR - Escritorio dev. Rural">EDR - Escritorio dev. Rural</option>
+                                            <option value="CA - Casa de Agricultura">CA - Casa de Agricultura</option>
+                                            <option selected value="NPM - Nucleo de Prod. de Mudas">NPM - Nucleo de Prod. de Mudas</option>
+                                            <option value="APTA - Agência Paulista de Tec. dos Agronegocios">APTA - Agência Paulista de Tec. dos Agronegocios</option>
+                                            <option value="CDA - Coordenadoria de Def. Agropecuaria">CDA - Coordenadoria de Def. Agropecuaria</option>
+                                            <option value="CATI - Coordenadoria de Desenvolvimento Rural Sustentável">CATI - Coordenadoria de Desenvolvimento Rural Sustentável</option>
+					    <option value="CTIC - Centro de Tecnologia Informação e Comunicação">CTIC - Centro de Tecnologia Informação e Comunicação</option>
                                             <?php
                                             }
                                             ?>
                                             <?php
-                                            if ($setor == "NPM") {
+                                            if ($setor == "APTA - Agência Paulista de Tec. dos Agronegocios") {
                                             ?>
-                                            <option value="DSMM">DSMM - Dep de Sementes, Mudas e Matrizes</option>
-                                            <option value="EDR">EDR - Escritorio dev. Rural</option>
-                                            <option value="CA">CA - Casa de Agricultura</option>
-                                            <option selected value="NPM">NPM - Nucle de Prod. de Mudas</option>
-                                            <option value="APTA">APTA - Agência Paulista de Tec. dos Agronegocios
-                                            </option>
-                                            <option value="CDA">CDA - Corrdenadoria de Def. Agropecuaria</option>
-                                            <option value="CATI">CATI - Coordenadoria de Desenvolvimento Rural
-                                                Sustentável</option>
-
+                                            <option value="DSMM - Dep de Sementes, Mudas e Matrizes">DSMM - Dep de Sementes, Mudas e Matrizes</option>
+                                            <option value="EDR - Escritorio dev. Rural">EDR - Escritorio dev. Rural</option>
+                                            <option value="CA - Casa de Agricultura">CA - Casa de Agricultura</option>
+                                            <option value="NPM - Nucleo de Prod. de Mudas">NPM - Nucleo de Prod. de Mudas</option>
+                                            <option selected value="APTA - Agência Paulista de Tec. dos Agronegocios">APTA - Agência Paulista de Tec. dos Agronegocios</option>
+                                            <option value="CDA - Coordenadoria de Def. Agropecuaria">CDA - Coordenadoria de Def. Agropecuaria</option>
+                                            <option value="CATI - Coordenadoria de Desenvolvimento Rural Sustentável">CATI - Coordenadoria de Desenvolvimento Rural Sustentável</option>
+					    <option value="CTIC - Centro de Tecnologia Informação e Comunicação">CTIC - Centro de Tecnologia Informação e Comunicação</option>
                                             <?php
                                             }
                                             ?>
                                             <?php
-                                            if ($setor == "APTA") {
+                                            if ($setor == "CDA - Coordenadoria de Def. Agropecuaria") {
                                             ?>
-                                            <option value="DSMM">DSMM - Dep de Sementes, Mudas e Matrizes</option>
-                                            <option value="EDR">EDR - Escritorio dev. Rural</option>
-                                            <option value="CA">CA - Casa de Agricultura</option>
-                                            <option value="NPM">NPM - Nucle de Prod. de Mudas</option>
-                                            <option selected value="APTA">APTA - Agência Paulista de Tec. dos
-                                                Agronegocios</option>
-                                            <option value="CDA">CDA - Corrdenadoria de Def. Agropecuaria</option>
-                                            <option value="CATI">CATI - Coordenadoria de Desenvolvimento Rural
-                                                Sustentável</option>
-
+                                            <option value="DSMM - Dep de Sementes, Mudas e Matrizes">DSMM - Dep de Sementes, Mudas e Matrizes</option>
+                                            <option value="EDR - Escritorio dev. Rural">EDR - Escritorio dev. Rural</option>
+                                            <option value="CA - Casa de Agricultura">CA - Casa de Agricultura</option>
+                                            <option value="NPM - Nucleo de Prod. de Mudas">NPM - Nucleo de Prod. de Mudas</option>
+                                            <option value="APTA - Agência Paulista de Tec. dos Agronegocios">APTA - Agência Paulista de Tec. dos Agronegocios</option>
+                                            <option selected value="CDA - Coordenadoria de Def. Agropecuaria">CDA - Coordenadoria de Def. Agropecuaria</option>
+                                            <option value="CATI - Coordenadoria de Desenvolvimento Rural Sustentável">CATI - Coordenadoria de Desenvolvimento Rural Sustentável</option>
+					    <option value="CTIC - Centro de Tecnologia Informação e Comunicação">CTIC - Centro de Tecnologia Informação e Comunicação</option>
                                             <?php
                                             }
                                             ?>
                                             <?php
-                                            if ($setor == "CDA") {
+                                            if ($setor == "CATI - Coordenadoria de Desenvolvimento Rural Sustentável") {
                                             ?>
-                                            <option value="DSMM">DSMM - Dep de Sementes, Mudas e Matrizes</option>
-                                            <option value="EDR">EDR - Escritorio dev. Rural</option>
-                                            <option value="CA">CA - Casa de Agricultura</option>
-                                            <option value="NPM">NPM - Nucle de Prod. de Mudas</option>
-                                            <option value="APTA">APTA - Agência Paulista de Tec. dos Agronegocios
-                                            </option>
-                                            <option selected value="CDA">CDA - Corrdenadoria de Def. Agropecuaria
-                                            </option>
-                                            <option value="CATI">CATI - Coordenadoria de Desenvolvimento Rural
-                                                Sustentável</option>
-
+                                            <option value="DSMM - Dep de Sementes, Mudas e Matrizes">DSMM - Dep de Sementes, Mudas e Matrizes</option>
+                                            <option value="EDR - Escritorio dev. Rural">EDR - Escritorio dev. Rural</option>
+                                            <option value="CA - Casa de Agricultura">CA - Casa de Agricultura</option>
+                                            <option value="NPM - Nucleo de Prod. de Mudas">NPM - Nucleo de Prod. de Mudas</option>
+                                            <option value="APTA - Agência Paulista de Tec. dos Agronegocios">APTA - Agência Paulista de Tec. dos Agronegocios</option>
+                                            <option value="CDA - Coordenadoria de Def. Agropecuaria">CDA - Coordenadoria de Def. Agropecuaria</option>
+                                            <option selected value="CATI - Coordenadoria de Desenvolvimento Rural Sustentável">CATI - Coordenadoria de Desenvolvimento Rural Sustentável</option>
+					    <option value="CTIC - Centro de Tecnologia Informação e Comunicação">CTIC - Centro de Tecnologia Informação e Comunicação</option>
                                             <?php
                                             }
                                             ?>
                                             <?php
-                                            if ($setor == "CATI") {
+                                            if ($setor == "CTIC - Centro de Tecnologia Informação e Comunicação") {
                                             ?>
-                                            <option value="DSMM">DSMM - Dep de Sementes, Mudas e Matrizes</option>
-                                            <option value="EDR">EDR - Escritorio dev. Rural</option>
-                                            <option value="CA">CA - Casa de Agricultura</option>
-                                            <option value="NPM">NPM - Nucle de Prod. de Mudas</option>
-                                            <option value="APTA">APTA - Agência Paulista de Tec. dos Agronegocios
-                                            </option>
-                                            <option value="CDA">CDA - Corrdenadoria de Def. Agropecuaria</option>
-                                            <option selected value="CATI">CATI - Coordenadoria de Desenvolvimento Rural
-                                                Sustentável</option>
+                                            <option value="DSMM - Dep de Sementes, Mudas e Matrizes">DSMM - Dep de Sementes, Mudas e Matrizes</option>
+                                            <option value="EDR - Escritorio dev. Rural">EDR - Escritorio dev. Rural</option>
+                                            <option value="CA - Casa de Agricultura">CA - Casa de Agricultura</option>
+                                            <option value="NPM - Nucleo de Prod. de Mudas">NPM - Nucleo de Prod. de Mudas</option>
+                                            <option value="APTA - Agência Paulista de Tec. dos Agronegocios">APTA - Agência Paulista de Tec. dos Agronegocios</option>
+                                            <option value="CDA - Coordenadoria de Def. Agropecuaria">CDA - Coordenadoria de Def. Agropecuaria</option>
+                                            <option selected value="CATI - Coordenadoria de Desenvolvimento Rural Sustentável">CATI - Coordenadoria de Desenvolvimento Rural Sustentável</option>
+					    <option value="CTIC - Centro de Tecnologia Informação e Comunicação">CTIC - Centro de Tecnologia Informação e Comunicação</option>
+                                            <?php
+                                            }
+                                            ?>
+
+                                            <?php
+                                            if ($setor == "000") {
+                                            ?>
+                                            <option value="DSMM - Dep de Sementes, Mudas e Matrizes">DSMM - Dep de Sementes, Mudas e Matrizes</option>
+                                            <option value="EDR - Escritorio dev. Rural">EDR - Escritorio dev. Rural</option>
+                                            <option value="CA - Casa de Agricultura">CA - Casa de Agricultura</option>
+                                            <option value="NPM - Nucleo de Prod. de Mudas">NPM - Nucleo de Prod. de Mudas</option>
+                                            <option value="APTA - Agência Paulista de Tec. dos Agronegocios">APTA - Agência Paulista de Tec. dos Agronegocios</option>
+                                            <option value="CDA - Coordenadoria de Def. Agropecuaria">CDA - Coordenadoria de Def. Agropecuaria</option>
+                                            <option value="CATI - Coordenadoria de Desenvolvimento Rural Sustentável">CATI - Coordenadoria de Desenvolvimento Rural Sustentável</option>
+					    <option value="CTIC - Centro de Tecnologia Informação e Comunicação">CTIC - Centro de Tecnologia Informação e Comunicação</option>
                                             <?php
                                             }
                                             ?>
@@ -407,107 +475,147 @@ if (!empty($_POST)) {
                                             <?php
                                             if ($status == "Não mexido") {
                                             ?>
-                                            <option selected value="Não mexido"> Não mexido </option>
-                                            <option value="Sendo Mexido"> Sendo Mexido </option>
+                                            <option selected value="Em Aberto"> Em Aberto </option>
+                                            <option value="Em Manutenção"> Em Manutenção </option>
                                             <option value="Pronta"> Pronta </option>
                                             <option value="Entregue"> Entregue </option>
                                             <option value="Baixa"> Baixa </option>
                                             <option value="Transferencia"> Transferencia </option>
-                                            <option value="Emprestado"> Emprestado </option>
-
+                                            <option value="Arquivado"> Arquivado </option>
+					    <option value="Livre"> Livre </option>
                                             <?php
                                             }
                                             ?>
                                             <?php
                                             if ($status == "Sendo Mexido") {
                                             ?>
-                                            <option value="Não mexido"> Não mexido </option>
-                                            <option selected value="Sendo Mexido"> Sendo Mexido </option>
+                                            <option value="Em Aberto"> Em Aberto </option>
+                                            <option selected value="Em Manutenção"> Em Manutenção </option>
                                             <option value="Pronta"> Pronta </option>
                                             <option value="Entregue"> Entregue </option>
                                             <option value="Baixa"> Baixa </option>
                                             <option value="Transferencia"> Transferencia </option>
-                                            <option value="Emprestado"> Emprestado </option>
-
+                                            <option value="Arquivado"> Arquivado </option>
+					    <option value="Livre"> Livre </option>
                                             <?php
                                             }
                                             ?>
                                             <?php
                                             if ($status == "Pronta") {
                                             ?>
-                                            <option value="Não mexido"> Não mexido </option>
-                                            <option value="Sendo Mexido"> Sendo Mexido </option>
+                                            <option value="Em Aberto"> Não mexido </option>
+                                            <option value="Em Manutenção"> Sendo Mexido </option>
                                             <option selected value="Pronta"> Pronta </option>
                                             <option value="Entregue"> Entregue </option>
                                             <option value="Baixa"> Baixa </option>
                                             <option value="Transferencia"> Transferencia </option>
-                                            <option value="Emprestado"> Emprestado </option>
-
+                                            <option value="Arquivado"> Arquivado </option>
+					    <option value="Livre"> Livre </option>
                                             <?php
                                             }
                                             ?>
                                             <?php
                                             if ($status == "Entregue") {
                                             ?>
-                                            <option value="Não mexido"> Não mexido </option>
-                                            <option value="Sendo Mexido"> Sendo Mexido </option>
+                                            <option value="Em Aberto"> Não mexido </option>
+                                            <option value="Em Manutenção"> Sendo Mexido </option>
                                             <option value="Pronta"> Pronta </option>
                                             <option selected value="Entregue"> Entregue </option>
                                             <option value="Baixa"> Baixa </option>
                                             <option value="Transferencia"> Transferencia </option>
                                             <option value="Emprestado"> Emprestado </option>
-
+ 					    <option value="Livre"> Livre </option>
                                             <?php
                                             }
                                             ?>
                                             <?php
                                             if ($status == "Baixa") {
                                             ?>
-                                            <option value="Não mexido"> Não mexido </option>
-                                            <option value="Sendo Mexido"> Sendo Mexido </option>
+                                            <option value="Em Aberto"> Não mexido </option>
+                                            <option value="Em Manutenção"> Sendo Mexido </option>
                                             <option value="Pronta"> Pronta </option>
                                             <option value="Entregue"> Entregue </option>
                                             <option selected value="Baixa"> Baixa </option>
                                             <option value="Transferencia"> Transferencia </option>
-                                            <option value="Emprestado"> Emprestado </option>
-
+                                            <option value="Arquivado"> Arquivado </option>
+					    <option value="Livre"> Livre </option>
                                             <?php
                                             }
                                             ?>
                                             <?php
                                             if ($status == "Transferencia") {
                                             ?>
-                                            <option value="Não mexido"> Não mexido </option>
-                                            <option value="Sendo Mexido"> Sendo Mexido </option>
+                                            <option value="Em Aberto"> Não mexido </option>
+                                            <option value="Em Manutenção"> Sendo Mexido </option>
                                             <option value="Pronta"> Pronta </option>
                                             <option value="Entregue"> Entregue </option>
                                             <option value="Baixa"> Baixa </option>
                                             <option selected value="Transferencia"> Transferencia </option>
-                                            <option value="Emprestado"> Emprestado </option>
-
+                                            <option value="Arquivado"> Arquivado </option>
+       					    <option value="Livre"> Livre </option>
                                             <?php
                                             }
                                             ?>
                                             <?php
                                             if ($status == "Emprestado") {
                                             ?>
-                                            <option value="Não mexido"> Não mexido </option>
-                                            <option value="Sendo Mexido"> Sendo Mexido </option>
+                                            <option value="Em Aberto"> Não mexido </option>
+                                            <option value="Em Manutenção"> Sendo Mexido </option>
                                             <option value="Pronta"> Pronta </option>
                                             <option value="Entregue"> Entregue </option>
                                             <option value="Baixa"> Baixa </option>
                                             <option value="Transferencia"> Transferencia </option>
-                                            <option selected value="Emprestado"> Emprestado </option>
+                                            <option selected value="Arquivado"> Arquivado </option>
+					    <option value="Livre"> Livre </option>
+                                            <?php
+                                            }
+                                            ?>
+                                            <?php
+                                            if ($status == "Livre") {
+                                            ?>
+                                            <option value="Em Aberto"> Não mexido </option>
+                                            <option value="Em Manutenção"> Sendo Mexido </option>
+                                            <option value="Pronta"> Pronta </option>
+                                            <option value="Entregue"> Entregue </option>
+                                            <option value="Baixa"> Baixa </option>
+                                            <option value="Transferencia"> Transferencia </option>
+                                            <option value="Arquivado"> Arquivado </option>
+					    <option selected value="Livre"> Livre </option>
+                                            <?php
+                                            }
+                                            ?>
+
+                                            <?php
+                                            if ($status == "Em Aberto") {
+                                            ?>
+                                            <option selected value="Em Aberto"> Em Aberto </option>
+                                            <option value="Em Manutenção"> Em Manutenção </option>
+                                            <option value="Pronta"> Pronta </option>
+                                            <option value="Entregue"> Entregue </option>
+                                            <option value="Baixa"> Baixa </option>
+                                            <option value="Transferencia"> Transferencia </option>
+                                            <option value="Arquivado"> Arquivado </option>
+					    <option value="Livre"> Livre </option>
 
                                             <?php
                                             }
                                             ?>
-                                            <!-- <option value="Não mexido"> Não mexido </option>
-                        <option value="Sendo Mexido"> Sendo Mexido </option>
-                        <option value="Pronta"> Pronta </option>
-                        <option value="Entregue"> Entregue </option>
-                        <option value="Baixa"> Baixa </option>
-                        <option value="Transferencia"> Transferencia </option> -->
+
+                                            <?php
+                                            if ($status == "Em Manutenção") {
+                                            ?>
+                                            <option value="Em Aberto"> Em Aberto </option>
+                                            <option selected value="Em Manutenção"> Em Manutenção </option>
+                                            <option value="Pronta"> Pronta </option>
+                                            <option value="Entregue"> Entregue </option>
+                                            <option value="Baixa"> Baixa </option>
+                                            <option value="Transferencia"> Transferencia </option>
+                                            <option value="Arquivado"> Arquivado </option>
+					    <option value="Livre"> Livre </option>
+
+                                            <?php
+                                            }
+                                            ?>
                                         </select>
                                         <?php if (!empty($statusErro)) : ?>
                                         <span class="text-danger"><?php echo $statusErro; ?></span>
@@ -614,6 +722,22 @@ if (!empty($_POST)) {
 
                         </div>
 
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <div class="control-group  <?php echo !empty($modeloErro) ? 'error ' : ''; ?>">
+                                    <label class="control-label">Modelo</label>
+                                    <div class="controls">
+                                        <input size="50" class="form-control" name="modelo" type="text"
+                                            value="<?php echo !empty($modelo) ? $modelo : ''; ?>">
+                                        <?php if (!empty($modeloErro)) : ?>
+                                        <span class="text-danger"><?php echo $modeloErro; ?></span>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <div class="control-group  <?php echo !empty($problemaErro) ? 'error ' : ''; ?>">
@@ -659,8 +783,8 @@ if (!empty($_POST)) {
     </div>
     <footer>
         <div class="container">
-            <span class="badge badge-secondary">v 1.0.0</span>
-            <p>&copy; 2021 - Marcos A. R. T. dos Santos</p>
+            <span class="badge badge-secondary">v 1.2.0 &copy; 2021 - Marcos A. R. T. dos Santos</span>
+            <p></p>
 
 
         </div>

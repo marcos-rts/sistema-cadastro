@@ -51,10 +51,9 @@ if (null == $id) {
 
       <tbody>
       <tr>
-          <th scope="">Numero de Protocolo</th>
-          <td scope="" > <?php echo $ano, ' / ', $data['chamado']; ?> </td>
-          <th scope="">Numero de ID</th>
-          <td scope="" > <?php echo $data['id']; ?> </td>
+          <th scope="" style="width:300px">Protocolo & ID </th>
+          <td scope="" colspan="3" > <?php echo $ano, ' / ', $data['chamado']; ?> - <?php echo $data['id']; ?> </td>
+      <!--    <td scope="" > <?php echo $data['id']; ?> </td>    -->
         </tr>
         <tr>
             <th> Descrição do Problema </th>
@@ -62,7 +61,9 @@ if (null == $id) {
         </tr>
         <tr>
             <th> Tecnico responsavel pela avaliação </th>
-            <td colspan="3"> <?php echo $data['tecnico']; ?> </td>
+            <td > <?php echo $data['tecnico']; ?> </td>
+            <th style="width:100px"> Status</th>
+	    <td style="width:200px"> </td>
         </tr>        
       </tbody>
     </table>
@@ -102,7 +103,7 @@ if (null == $id) {
         <h3 class="well text-center">DADOS PESSOAIS</h3>
     </div>
 
-
+<!--
     <table class="table table-sm table-bordered" border="1">
 
 
@@ -127,14 +128,62 @@ if (null == $id) {
         </tr>      
       </tbody>
     </table>
+-->
+    
+
+
+
+   <table class="table table-sm table-bordered" border="1">
+
+
+      <tbody>
+      <tr>
+          <th scope="">Usuario quem trouxe</th>
+          <td scope="" colspan=3> <?php echo $data['nome']; ?> </td>
+	</tr>
+        <tr>
+          <th scope="">Telefone</th>
+          <td scope="" >  <?php echo $data['telefone']; ?> </td>
+          <th scope="">Email</th>
+          <td scope="" >  <?php echo $data['email']; ?> </td>
+        </tr>
+        <tr>
+          <th scope="">Data de Entrada</th>
+          <td scope=""  colspan=3> <?php echo $dia, '/', $mes, '/', $ano  ; ?> </td>
+        </tr>
+	<tr>
+          <th scope="">Tecnico que Recebeu</th>
+          <td scope=""  colspan=3 > <?php echo $data['recebe']; ?> </td>
+	</tr>
+      </tbody>
+    </table>
 
     <br>
-    ✄<hr size="1" style="border:1px dashed green;">✄
-<br>
+
+
+
+
 <br>
 
-    <div class="container">
-    <div class="container">
+	<div class="container">
+&emsp;&emsp;Ass.:______________________________&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Ass.:______________________________
+<br>&emsp;&emsp;<strong> Usuario que recebeu</strong>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<strong> Tecnico que entregou</strong>
+</div>
+
+<br>
+<br>
+<br>
+&emsp;&emsp;______ / ______ / <strong> <?php echo $ano; ?> </strong>
+<br>
+&emsp;&emsp;<strong>Data de saida</strong>
+<br>
+<br>
+    ✄<hr size="1" style="border:1px dashed green;">✄
+<br>
+
+    
     <table class="table table-bordered" border="1">
 
 
@@ -161,11 +210,15 @@ if (null == $id) {
 </tr>
 <tr>
     <th scope="">Data de Entrada</th>
-    <td scope="" colspan="5"> <?php echo $dia, '/', $mes, '/', $ano  ; ?> </td>
+    <td scope="" colspan="1"> <?php echo $dia, '/', $mes, '/', $ano  ; ?> </td>
+    <th scope="">Data de Saida</th>
+    <th scope=""></td>
   </tr> 
 <tr>
       <th>Tecnico que Recebeu</th>
-        <td scope="" colspan="5"><?php echo $data['recebe']; ?></td>
+        <td scope="" colspan="1"><?php echo $data['recebe']; ?></td>
+          <th scope="" style="width:200px">Tecnico que Entregou</th>
+          <td scope="" style="width:300px">  </td>
 </tr>
      
 </tbody>

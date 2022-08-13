@@ -2,10 +2,10 @@
 
 class Banco
 {
-    private static $dbNome = 'novo_sistema';
-    private static $dbHost = 'Localhost';
-    private static $dbUsuario = 'root';
-    private static $dbSenha = '';
+    private static $dbNome = 'novosistema';
+    private static $dbHost = 'localhost';
+    private static $dbUsuario = 'suporte';
+    private static $dbSenha = 'sup0rt32022';
     
     private static $cont = null;
     
